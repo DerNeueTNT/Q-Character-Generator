@@ -1,0 +1,656 @@
+import random
+from datetime import datetime
+from Data import SUPPORTED_RACES, RACE_DATA
+
+def generate_gender(gender: str = "") -> str:
+    """
+    Generates a gender. "Non-Binary" has a lower chance to generate than "Male" and "Female".
+    """
+    if gender.lower() not in ["male", "female", "non-binary", "nonbinary"]:
+        weights: list = [3, 3, 1]
+        gender = random.choices(["Male", "Female", "Non-Binary"], weights=weights, k=1)[0]
+    
+    return gender
+
+def generate_race(race: str= "") -> str:
+    """
+    Generates a race. Some races have lower chances to generate than others, humans have the highest chance to generate.
+    """
+    if race == "":
+        weights: list = [10, 8, 8, 8, 2, 8, 8, 8, 2, 8, 7, 7, 5, 1]
+        race = random.choices(["Human", "Halfling", "Elf", "Dwarf", "Gnome", "Giant", "Goliath", "Orc", "Dragonborn", "Half-Elf", "Half-Orc", "Tiefling", "Kobold", "Warforged"], weights=weights, k=1)[0]
+    else:
+        pass
+
+    return race
+
+def generate_name(name: str = "", race: str = "", gender: str = "") -> str:
+    """
+    Generates a name. Names are race specific (with a chance to use a generic name instead).
+    """
+    first_name_type: int = random.randint(1, 4)
+    has_middle_name: int = random.randint(1, 8)
+    middle_name_type: int = random.randint(1, 4)
+    last_name_type: int = random.randint(1, 4)
+    full_name = ""
+    race = race.title()
+
+    if name != "":
+        return(name)
+    if race in SUPPORTED_RACES:
+        #First name generator for supported races
+        if first_name_type <= 3:
+            if gender.lower() in ["male", "female"]:
+                full_name += random.choice(RACE_DATA[race]["names"][gender.lower()])
+            else:
+                full_name += random.choice(RACE_DATA[race]["names"]["male"] + RACE_DATA[race]["names"]["female"])
+        else:
+            if gender.lower() in ["male", "female"]:
+                full_name += random.choice(RACE_DATA["Generic"]["names"][gender.lower()])
+            else:
+                full_name += random.choice(RACE_DATA["Generic"]["names"]["male"] + RACE_DATA["Generic"]["names"]["female"])
+
+        #Middle name generator for supported races
+        if has_middle_name == 8:
+            if middle_name_type <= 2 or race.title() == "Dragonborn":
+                full_name += f" {random.choice(RACE_DATA[race]["names"]["middle"])}"
+            else:
+                full_name += f" {random.choice(RACE_DATA["Generic"]["names"]["middle"])}"
+
+        #Last name generator for supported races
+        if last_name_type <= 3:
+            full_name += f" {random.choice(RACE_DATA[race]["names"]["last"])}"
+        else:
+            full_name += f" {random.choice(RACE_DATA["Generic"]["names"]["last"])}"
+    else:
+        #First name generator for unsupported races
+        if gender.lower() in ["male", "female"]:
+            full_name += random.choice(RACE_DATA["Generic"]["names"][gender.lower()])
+        else:
+            full_name += random.choice(RACE_DATA["Generic"]["names"]["male"] + RACE_DATA["Generic"]["names"]["female"])
+
+        #Middle name generator for unsupported races
+        if has_middle_name == 8:
+            full_name += f" {random.choice(RACE_DATA["Generic"]["names"]["middle"])}"
+        #Last name generator for unsupported races
+        full_name += f" {random.choice(RACE_DATA["Generic"]["names"]["last"])}"
+    
+    return full_name
+
+
+def generate_age(race: str = "", age: str = None, child: str = "", m_age: str = None, c_age: str = None) -> int:
+    """
+    Generates an age. Age ranges are based on race and if the NPC is a child.
+    """
+    min_age: int = None
+
+    #Convert user input (str) into bool variables
+    try:
+        max_age: int = int(m_age)
+    except Exception:
+        max_age = None
+    try:
+        child_age: int = int(c_age)
+    except Exception:
+        child_age = None
+    try:
+        current_age: int = int(age)
+    except Exception:
+        current_age = None
+        
+    if child.lower() == "y" or child.lower() == "yes":
+        is_child: bool = True
+    else:
+        is_child = False
+
+    #Make sure that all the variables used in this function are valid values
+    if min_age != None:
+        if min_age <= 0:
+            min_age = 1
+    if child_age != None and min_age != None:
+        if child_age < min_age:
+            child_age = 1
+    if max_age != None and child_age != None:
+        if max_age < child_age:
+            max_age = child_age + 1
+        if child_age != None:
+                min_age: int = child_age - child_age / 4
+
+    if current_age != None:
+        pass
+    elif max_age != None and child_age != None and is_child == False:
+        current_age = random.randint(child_age, max_age)
+    elif max_age != None and child_age != None and is_child == True:
+        current_age = random.randint(min_age, child_age)
+    elif is_child == False and race.title() in SUPPORTED_RACES:
+        current_age = random.randint(RACE_DATA[race.title()]["ages"]["child"], RACE_DATA[race.title()]["ages"]["max"])
+    elif is_child == True and race.title() in RACE_DATA["Supported_Races"]:
+        current_age = random.randint(RACE_DATA[race.title()]["ages"]["min"], RACE_DATA[race.title()]["ages"]["child"])
+    elif is_child == False:
+        current_age = random.randint(RACE_DATA["Generic"]["ages"]["child"], RACE_DATA["Generic"]["ages"]["max"])
+    elif is_child == True:
+        current_age = random.randint(RACE_DATA["Generic"]["ages"]["min"], RACE_DATA["Generic"]["ages"]["child"])
+    else:
+        raise Exception("something broke in the age generator")
+        
+    return current_age
+
+def generate_profession(job: str = "", child: str = "", a_job: str = "") -> str:
+    """
+    Generate a profession. Generates from a unique table if the NPC is a child.
+    """
+    
+    #Convert the user input (str) into bool variables
+    if child.lower() == "y" or child.lower() =="yes":
+        is_child: bool = True
+    else:
+        is_child: bool = False
+
+    if a_job.lower() == "y" or a_job.lower() =="yes":
+        adult_job: bool = True
+    else:
+        adult_job: bool = False
+
+    if job == "" and is_child == False or job == "" and adult_job == True:
+        job = random.choice(["Farmer", "Blacksmith", "Cleric", "Paladin", "Knight", "Guard", "Merchant", "Wandering Trader", "Magician", "Wizard", "Lumberjack", "Tailor", "Butcher", "Baker", "Stonemason", "Weaver", "Winemaker", "Fisherman", "Shoemaker/Cobbler", "Wheelwright", "Roofer", "Locksmith", "Tanner", "Tax Collector", "Belt Maker", "Armourer", "Cook", "Servant", "Dyer", "Goldsmith", "Hatmaker", "Tailor", "Scrybe", "Tinsmith", "Carter/Coachman", "Birdcatcher", "Painter", "Tavern Keeper", "Sadler", "Messenger", "Ropemaker", "Miller", "Turner", "Gardener", "Barber", "Librarian", "Jobless"])
+    elif job == "" and is_child == True:
+        job = random.choice(["Student", "Apprentice", "Jobless", "Farmhand", "Assistant"])
+    else:
+        pass
+
+    return job
+
+
+def generate_stats() -> tuple[str, str]:
+    """
+    Generate ability scores based on D&D.
+    """
+    
+    def stat_generator() -> int:
+        stat_list: list = []
+        for i in range(4):
+            stat_list.append(random.randint(1, 6))
+            
+        stat_list.sort()
+        return sum(stat_list[1:])
+    
+    strength: int = stat_generator()
+    dexterity: int = stat_generator()
+    constitution: int = stat_generator()
+    intelligence: int = stat_generator()
+    wisdom: int = stat_generator()
+    charisma: int = stat_generator()
+
+    return f"\033[1;37mStr\033[0m [{strength}], \033[1;37mDex\033[0m [{dexterity}], \033[1;37mCon\033[0m [{constitution}], \033[1;37mInt\033[0m [{intelligence}], \033[1;37mWis\033[0m [{wisdom}], \033[1;37mCha\033[0m [{charisma}]", f"Str [{strength}], Dex [{dexterity}], Con [{constitution}], Int [{intelligence}], Wis [{wisdom}], Cha [{charisma}]"
+
+def generate_speech_quirk() -> str:
+    """
+    Generate a speech quirk to make the NPC more memorable.
+    """
+    quirks: list = ["with a big mouth", f"as if they had something in their throat", "as if they were hiding something", "very fast", "slowly", "everything as if it was a question", "only in rhymes", "with a germanic accent", "with an italian accent", "with a british accent", "with a french accent", "without pausing between words", "every word as written", "hesitantly", "with a stutter", "with a small mouth", "with their mouth closed", "breathily", "just generally strangely", "like a snake", "as if they just finished a marathon", "angrily", "like a detective noir", "in third person", "overly dramatic"]
+    speech_quirks: list = random.sample(quirks, 2)
+    return f"Speaks {speech_quirks[0]} and {speech_quirks[1]}"
+
+def generate_lore() -> tuple[str, int]:
+    """
+    Generates the first half of the lore string.
+    """
+    lore: str = ""
+    secondary_option: int = random.randint(1, 5)
+    choose_option: int = random.randint(1, 12)
+    if choose_option == 1:
+        lore += "they lost their village "
+        if secondary_option == 1:
+            lore += "to a fire"
+        elif secondary_option == 2:
+            lore += "to a natural disaster"
+        elif secondary_option == 3:
+            lore += f"to {random.choice(["a dragon", "a terrasque", "a wyrm", "a wyvern", "bandits", "a lich", "a war", "plague"])}"
+        elif secondary_option == 4:
+            lore += "literally, they dont know where it is"
+        elif secondary_option == 5:
+            lore += "a great tragedy"
+    elif choose_option == 2:
+        lore += "they are known "
+        if secondary_option == 1:
+            lore += f"for commiting {random.choice(["arson", "theft", "murder", "to the bit", "robbery", "breaking and entering", "various crimes"])}"
+        elif secondary_option == 2:
+            lore += "for some reason"
+        elif secondary_option == 3:
+            lore += f"for {random.choice(["their smile", "their voice", "their kindness", "their rudeness", "protecting the innocent", "their acrobatics", "their sense of humor", "their high (insert highest skill here)"])}"
+        elif secondary_option == 4:
+            lore += f"to {random.choice(["go on explosive rants", "help others", "trick others", "do backflips and barrel rolls", "tell people to COOL IT", "run around wildly", "tell bad jokes and puns", "not know a lot of things"])}"
+        elif secondary_option == 5:
+            lore += "among locals"
+    elif choose_option == 3:
+        lore += "they secretly "
+        if secondary_option == 1:
+            lore += "help others"
+        elif secondary_option == 2:
+            lore += "are running away from their past"
+        elif secondary_option == 3:
+            lore += f"love {random.choice(["themselves", "hobgoblins", "stealing candy from kids", "just being lazy", "helping others", "wandering in solitude"])}"
+        elif secondary_option == 4:
+            lore += f"hate {random.choice(["themselves", "hobgoblins", "other races", "their living situation", "helping others", "a party member"])}"
+        elif secondary_option == 5:
+            lore += "have a crush on a PC"
+    elif choose_option == 4:
+        lore += "they are on a quest "
+        if secondary_option == 1:
+            lore += "for vengeance"
+        elif secondary_option == 2:
+            lore += "for redemption"
+        elif secondary_option == 3:
+            lore += f"to find {random.choice(["themselves", "their arch nemisis", "their lost lover", "their child", "their pet", "salvation", "a purpose", "solitude"])}"
+        elif secondary_option == 4:
+            lore += "revive a long lost relative"
+        elif secondary_option == 5:
+            lore += f"to find {random.randint(1, 30)} {random.choice(["Grandfather's Hammers", "Daisies", "Greg The Garlic Farmer", "Zombo points", "Diamonds", "Rare Artifacts", "Lovers", f"People Named {generate_name()}", "Friends"])} in {random.choice(["The Local Area", "The Mountains of Schmargenrog", "Honeywood", "The City of Wrath", "Everwinter woods", "Gareth", "Adventuria", "The Bladegrass Steppes"])}"
+    elif choose_option == 5:
+        lore += "they believe "
+        if secondary_option == 1:
+            lore += "that they are worthless if they don't achieve something big"
+        elif secondary_option == 2:
+            lore += "in the gods"
+        elif secondary_option == 3:
+            lore += f"that they {random.choice(["can change the world", "can do anything", "will cahnge the world", "are important", "are useless", "are intelligent"])}"
+        elif secondary_option == 4:
+            lore += "that they can trust nobody"
+        elif secondary_option == 5:
+            lore += "that the party is their enemy"
+    elif choose_option == 6:
+        lore += "they "
+        if secondary_option == 1:
+            lore += "don't know where babies come from"
+        elif secondary_option == 2:
+            lore += "dont know a lot about the world"
+        elif secondary_option == 3:
+            lore += f"believe that {random.choice(["they are invisible", "the birds do not exist", "magic sucks"])}"
+        elif secondary_option == 4:
+            lore += "eat other people's food at work"
+        elif secondary_option == 5:
+            lore += "don't care about what others think of them"
+        #The logic below is meant to be inclusive, PLEASE feel free to add to this list, I know that there are a lot of unique gender identities out there.
+        #If you have a problem with this piece of code being here because you dislike members of the lgbtq+ community or people with mental disabilities/mental health problems: consider adapting a more loving worldview, hate is not welcome here
+    elif choose_option == 7:
+        lore += "they are " 
+        if secondary_option == 1:
+            lore += f"{random.choice(["autistic", "neurodivergent"])}"
+        elif secondary_option == 2:
+            lore += f"{random.choice(["homosexual", "bisexual", "pansexual"])}"
+        elif secondary_option == 3:
+            lore += "introverted"
+        elif secondary_option == 4:
+            lore += f"{random.choice(["asexual", "aromantic", "aroace"])}"
+        elif secondary_option == 5:
+            lore += "depressed"
+    elif choose_option == 8:
+        lore += "they are also known as "
+        if secondary_option == 1:
+            lore += f"the {random.choice(["doctor", "master", "hero", "great one"])}"
+        elif secondary_option == 2:
+            lore += f"{generate_name()}"
+        elif secondary_option == 3:
+            lore += "a criminal"
+        elif secondary_option == 4:
+            lore += "a healer"
+        elif secondary_option == 5:
+            lore += "a coward"
+    elif choose_option == 9:
+        lore += "they recently lost "
+        if secondary_option == 1:
+            lore += f"a {random.choice(["close friend", "family member", "parent", "lover", "pet"])}"
+        elif secondary_option == 2:
+            lore += f"their special {random.choice(["Pickaxe", "Hammer", "Spear", "Sword", "Rapier", "Shield", "Axe", "Item"])}"
+        elif secondary_option == 3:
+            lore += "something important to them"
+        elif secondary_option == 4:
+            lore += f"their {random.choice(["way of life", "belives", "will to live", "hope", "dreams"])}"
+        elif secondary_option == 5:
+            lore += "their true love"
+    elif choose_option == 10:
+        lore += "they keep having "
+        if secondary_option == 1:
+            lore += f"nightmares about {random.choice(["a great tragedy", "darkness", "a plaque", "lost love", "death", "the end of the world"])}"
+        elif secondary_option == 2:
+            lore += f"dreams about {random.choice(["love", "darkness", "light", "a happier life", "a lost family member", "the gods", "wealth"])}"
+        elif secondary_option == 3:
+            lore += f"thoughts about {random.choice(["suicide", "running away", "following their dreams", "confessing their love", "something far beyond mortals"])}"
+        elif secondary_option == 4:
+            lore += f"dreams from the perspective of {random.choice(["a deity", "a wild animal", "a different person", "a PC"])}"
+        elif secondary_option == 5:
+            lore += "difficulty breathing"
+    elif choose_option == 11:
+        lore += "they dislike "
+        if secondary_option == 1:
+            lore += f"a {random.choice(["local blacksmith", "PC", "local trader", "local ruler", "parent of theirs"])} due to {random.choice(["a minor disagreement", "a confilct of interest", "a conflict of believes", "something minor", "a tragedy"])}"
+        elif secondary_option == 2:
+            lore += "warlocks"
+        elif secondary_option == 3:
+            lore += f"talking to the party due to {random.choice(["their attitude", "difference of believes", "a minor disagreement"])}"
+        elif secondary_option == 4:
+            lore += "their job"
+        elif secondary_option == 5:
+            lore += "other people"
+    elif choose_option == 12:
+        lore += f"they {random.choice(["recently ", ""])}heard a rumor "
+        if secondary_option == 1:
+            lore += f"that {random.choice(["dragons", "the deities", "wizards", "dragonborn", "spellcasters", "artificers", "doctors"])} {random.choice([f"{random.choice(["like", "dislike"])} apples", "eat snakes for breakfast", "have to do a little jump every time they start walking", "can't say prestidigitation", "can't run", "like doing barrelrolls"])}"
+        elif secondary_option == 2:
+            lore += "dynamite is edible"
+        elif secondary_option == 3:
+            lore += f"about {random.choice(["a dragon's", "a king's", "a deity's"])} {random.choice(["favourite food", "favourite color", "favourite game", "love for worms", "greed"])}"
+        elif secondary_option == 4:
+            lore += "about the party"
+        elif secondary_option == 5:
+            lore += f"that {random.choice(["trees", "rocks", "some houses", "mountains", "birds"])} are {random.choice(["fake", "sentient", "gods", "powerful", "out of this world"])}"
+    
+    return lore, choose_option - 1
+    
+def generate_lore_2(lore_cat: int) -> str:
+    """
+    Generates the second half of the lore string, 
+    based on the lore_cat variable set in generate_lore().
+    """
+    lore: str = ""
+    secondary_option: int = random.randint(1, 2)
+    tertiary_option: int = random.randint(1, 5)
+    if secondary_option == 1:
+        lore += "and "
+    else:
+        lore += "but "
+
+    #beware of the evil and intimidating lore cat! /j
+    
+    if lore_cat == 0: #"they lost their village"
+        if secondary_option == 1:
+            if tertiary_option == 1:
+                lore += "they promised to rebuild it"
+            elif tertiary_option == 2:
+                lore += "they fled from it"
+            elif tertiary_option == 3:
+                lore += "they lost their entire family to it"
+            elif tertiary_option == 4:
+                lore += "they still mourn"
+            elif tertiary_option == 5:
+                lore += "they swore to never forget"
+        else:
+            if tertiary_option == 1:
+                lore += "they weren't there when it happened"
+            elif tertiary_option == 2:
+                lore += "they managed to save almost everyone"
+            elif tertiary_option == 3:
+                lore += "they hated it there anyways"
+            elif tertiary_option == 4:
+                lore += "they had something to do with it"
+            elif tertiary_option == 5:
+                lore += "that was a long time ago"
+    elif lore_cat == 1: #"they are known"
+        if secondary_option == 1:
+            if tertiary_option == 1:
+                lore += "have that reputation for a reason"
+            elif tertiary_option == 2:
+                lore += "don't know about it"
+            elif tertiary_option == 3:
+                lore += "are trying to get rid of this reputation"
+            elif tertiary_option == 4:
+                lore += "don't know how they got this reputation"
+            elif tertiary_option == 5:
+                lore += "that is their biggest achievement in life"
+        else:
+            if tertiary_option == 1:
+                lore += "they don't deserve this reputation"
+            elif tertiary_option == 2:
+                lore += "have no clue why people think that"
+            elif tertiary_option == 3:
+                lore += "don't like this reputation"
+            elif tertiary_option == 4:
+                lore += "only they think that they are known for this"
+            elif tertiary_option == 5:
+                lore += "that's just a straight-up lie"
+    elif lore_cat == 2: #"they secretly"
+        if secondary_option == 1:
+            if tertiary_option == 1:
+                lore += "love to tell people about it"
+            elif tertiary_option == 2:
+                lore += f"are hiding it {random.choice(['pretty well', 'incredibly well', 'horribly'])}"
+            elif tertiary_option == 3:
+                lore += "hope that no one can tell"
+            elif tertiary_option == 4:
+                lore += "hope to keep it a secret"
+            elif tertiary_option == 5:
+                lore += "they hate it"
+        else:
+            if tertiary_option == 1:
+                lore += "suck at hiding it"
+            elif tertiary_option == 2:
+                lore += "can't keep a secret"
+            elif tertiary_option == 3:
+                lore += "don't realize it"
+            elif tertiary_option == 4:
+                lore += "are desperately trying to hide it"
+            elif tertiary_option == 5:
+                lore += "no one believes them when they try to tell somebody"
+    elif lore_cat == 3: #"they are on a quest"
+        if secondary_option == 1:
+            if tertiary_option == 1:
+                lore += "have recently made great progress"
+            elif tertiary_option == 2:
+                lore += "refuse to give up, no matter how many obstacles they face"
+            elif tertiary_option == 3:
+                lore += "just recently started it"
+            elif tertiary_option == 4:
+                lore += "they just didn't think they could do it... until recently"
+            elif tertiary_option == 5:
+                lore += "they take it seriously"
+        else:
+            if tertiary_option == 1:
+                lore += "recently faced a major setback"
+            elif tertiary_option == 2:
+                lore += "they've been busy with other things"
+            elif tertiary_option == 3:
+                lore += "they have given up on it long ago"
+            elif tertiary_option == 4:
+                lore += "already failed"
+            elif tertiary_option == 5:
+                lore += "have no hope of succeeding"
+    elif lore_cat == 4: #"they believe"
+        if secondary_option == 1:
+            if tertiary_option == 1:
+                lore += "stand by this"
+            elif tertiary_option == 2:
+                lore += "refuse to let anyone tell them otherwise"
+            elif tertiary_option == 3:
+                lore += "will debate anyone who belives in a different worldview"
+            elif tertiary_option == 4:
+                lore += "love to tell people about this"
+            elif tertiary_option == 5:
+                lore += "try to apply this to everything"
+        else:
+            if tertiary_option == 1:
+                lore += "are always open to a different worldview"
+            elif tertiary_option == 2:
+                lore += "that's only what they tell people"
+            elif tertiary_option == 3:
+                lore += "but only because of tradition"
+            elif tertiary_option == 4:
+                lore += "don't want people to know about it"
+            elif tertiary_option == 5:
+                lore += "they also think there is more to the world"
+    elif lore_cat == 5: #"they"
+        if secondary_option == 1:
+            if tertiary_option == 1:
+                lore += "no one knows why"
+            elif tertiary_option == 2:
+                lore += f"this is due to a {random.choice(['recent', 'old', ''])} brain injury"
+            elif tertiary_option == 3:
+                lore += "tell everyone about it"
+            elif tertiary_option == 4:
+                lore += "refuse to change their ways"
+            elif tertiary_option == 5:
+                lore += "don't think others notice"
+        else:
+            if tertiary_option == 1:
+                lore += "everyone already knows about this"
+            elif tertiary_option == 2:
+                lore += "no one believes this to be true"
+            elif tertiary_option == 3:
+                lore += "they don't think that matters"
+            elif tertiary_option == 4:
+                lore += "no one else seems to notice"
+            elif tertiary_option == 5:
+                lore += "that is an obvious lie"
+    elif lore_cat == 6: #"they are"
+        if secondary_option == 1:
+            if tertiary_option == 1:
+                lore += "not afraid to admit it"
+            elif tertiary_option == 2:
+                lore += "are annoyingly vocal about it"
+            elif tertiary_option == 3:
+                lore += "intentionally hide it"
+            elif tertiary_option == 4:
+                lore += "want society to become more accepting of people like them"
+            elif tertiary_option == 5:
+                lore += "think this makes them special"
+        else:
+            if tertiary_option == 1:
+                lore += "are too afraid to tell people about it"
+            elif tertiary_option == 2:
+                lore += "don't want to admit it"
+            elif tertiary_option == 3:
+                lore += "don't realize it"
+            elif tertiary_option == 4:
+                lore += "don't want people to know about it"
+            elif tertiary_option == 5:
+                lore += "are forced to behave 'normal'"
+    elif lore_cat == 7: #"they are also known as"
+        if secondary_option == 1:
+            if tertiary_option == 1:
+                lore += "they are the only one that doesn't know this"
+            elif tertiary_option == 2:
+                lore += "like this name more than their actual name"
+            elif tertiary_option == 3:
+                lore += "they hate this nickname"
+            elif tertiary_option == 4:
+                lore += "no one knows where this came from"
+            elif tertiary_option == 5:
+                lore += "try to keep it a secret"
+        else:
+            if tertiary_option == 1:
+                lore += "they wish this wasn't the case"
+            elif tertiary_option == 2:
+                lore += "they want people to stop calling them that"
+            elif tertiary_option == 3:
+                lore += "only close friends get to call them that"
+            elif tertiary_option == 4:
+                lore += "don't want people to know about it"
+            elif tertiary_option == 5:
+                lore += "refuse to acknowledge it"
+    elif lore_cat == 8: #"they recently lost"
+        if secondary_option == 1:
+            if tertiary_option == 1:
+                lore += "they still mourn this"
+            elif tertiary_option == 2:
+                lore += "they are responsible for it"
+            elif tertiary_option == 3:
+                lore += "they blame only themselves for it"
+            elif tertiary_option == 4:
+                lore += "they blame everyone else for it"
+            elif tertiary_option == 5:
+                lore += "wish to undo this"
+        else:
+            if tertiary_option == 1:
+                lore += "they refuse to think about it"
+            elif tertiary_option == 2:
+                lore += "can't be bothered to mourn"
+            elif tertiary_option == 3:
+                lore += "they don't know this yet"
+            elif tertiary_option == 4:
+                lore += "haven't told anybody about it"
+            elif tertiary_option == 5:
+                lore += "they actually wanted this to happen"
+    elif lore_cat == 9: #"they keep having"
+        if secondary_option == 1:
+            if tertiary_option == 1:
+                lore += "are concerned by this"
+            elif tertiary_option == 2:
+                lore += "need to tell somebody about it"
+            elif tertiary_option == 3:
+                lore += "keep bringing it up"
+            elif tertiary_option == 4:
+                lore += "are trying to hide it"
+            elif tertiary_option == 5:
+                lore += "are genuinely freaked out by this"
+        else:
+            if tertiary_option == 1:
+                lore += "forget about it every time"
+            elif tertiary_option == 2:
+                lore += "don't think it's important"
+            elif tertiary_option == 3:
+                lore += "haven't told anybody"
+            elif tertiary_option == 4:
+                lore += "this is normal for them"
+            elif tertiary_option == 5:
+                lore += "they want no one to know"
+    elif lore_cat == 10: #"they dislike"
+        if secondary_option == 1:
+            if tertiary_option == 1:
+                lore += "this is just annoying for everyone involved"
+            elif tertiary_option == 2:
+                lore += "refuse to apologize"
+            elif tertiary_option == 3:
+                lore += "this is entirely their fault"
+            elif tertiary_option == 4:
+                lore += "it has ruined their life"
+            elif tertiary_option == 5:
+                lore += f"this has made them {random.choice(['infamous', 'famous'])}"
+        else:
+            if tertiary_option == 1:
+                lore += "no one really cares"
+            elif tertiary_option == 2:
+                lore += "they don't act upon it"
+            elif tertiary_option == 3:
+                lore += "don't tell anybody about it"
+            elif tertiary_option == 4:
+                lore += "they are able to change"
+            elif tertiary_option == 5:
+                lore += "there is a greater story behind it"
+    elif lore_cat == 11: #"they (recently) heard a rumor"
+        if secondary_option == 1:
+            if tertiary_option == 1:
+                lore += "are letting it shape their worldview"
+            elif tertiary_option == 2:
+                lore += "they are convinced it's true"
+            elif tertiary_option == 3:
+                lore += "love spreading it"
+            elif tertiary_option == 4:
+                lore += "it is the only thing they want to talk about"
+            elif tertiary_option == 5:
+                lore += "didn't think to question it"
+        else:
+            if tertiary_option == 1:
+                lore += "they didn't believe it"
+            elif tertiary_option == 2:
+                lore += "they secretly started it"
+            elif tertiary_option == 3:
+                lore += "can't quite remember it right"
+            elif tertiary_option == 4:
+                lore += "hate it"
+            elif tertiary_option == 5:
+                lore += "think it might only be partially true"
+
+    return lore
+def variable_maker(specifications: list) -> tuple[str, str, str, str, int, str, str, str, str, str, str]:
+    gender = generate_gender(specifications[2].strip())
+    race: str = generate_race(specifications[1].strip())
+    sub_race: str = ""
+    if race in RACE_DATA and RACE_DATA[race]["sub_races"] != None:
+        sub_race = f"({random.choice(RACE_DATA[race]['sub_races'])})"
+    name: str = generate_name(specifications[0].strip(), race, gender)
+    age: str = generate_age(race, specifications[3].strip(), specifications[4].strip(), specifications[5].strip(), specifications[6].strip())
+    profession: str = generate_profession(specifications[7].strip(), specifications[4].strip(), specifications[8].strip())
+    stats, stats_clean = generate_stats()
+    speech_quirk: str = generate_speech_quirk()
+    lore1, lore1_cat = generate_lore()
+    lore2: str= generate_lore_2(lore1_cat)
+    return gender, race, sub_race, name, age, profession, stats, stats_clean, speech_quirk, lore1, lore2
