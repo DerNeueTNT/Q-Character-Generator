@@ -8,7 +8,7 @@
 A tool for when your party questions a random NPc about their life story!
 
  =======================
-|	     Features	     |
+|	     Features	    |
  =======================
 > Quickly generate NPCs with
   - A randomly generated Name, Gender, Race and Profession
