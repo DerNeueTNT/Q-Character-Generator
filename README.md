@@ -8,7 +8,7 @@
 A tool for when your party questions a random NPc about their life story!
 
  =======================
-|	     Features	      |
+|	     Features	     |
  =======================
 > Quickly generate NPCs with
   - A randomly generated Name, Gender, Race and Profession
@@ -22,7 +22,7 @@ A tool for when your party questions a random NPc about their life story!
 > Automatic logging to ensure that you don't loose important NPCs!
 
  ========================
-|	     How to use	    |
+|	     How to use	     |
  ========================
 1. Run 'NPC_Generator.exe'.
 2. Enter specifications such as (Name, Race, Gender, etc.) or simply press enter to start generating.
