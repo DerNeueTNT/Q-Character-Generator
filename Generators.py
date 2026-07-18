@@ -198,153 +198,166 @@ def generate_lore() -> tuple[str, int]:
     lore: str = ""
     secondary_option: int = random.randint(1, 5)
     choose_option: int = random.randint(1, 12)
-    if choose_option == 1:
-        lore += "they lost their village "
-        if secondary_option == 1:
-            lore += "to a fire"
-        elif secondary_option == 2:
-            lore += "to a natural disaster"
-        elif secondary_option == 3:
-            lore += f"to {random.choice(["a dragon", "a terrasque", "a wyrm", "a wyvern", "bandits", "a lich", "a war", "plague"])}"
-        elif secondary_option == 4:
-            lore += "literally, they dont know where it is"
-        elif secondary_option == 5:
-            lore += "a great tragedy"
-    elif choose_option == 2:
-        lore += "they are known "
-        if secondary_option == 1:
-            lore += f"for commiting {random.choice(["arson", "theft", "murder", "to the bit", "robbery", "breaking and entering", "various crimes"])}"
-        elif secondary_option == 2:
-            lore += "for some reason"
-        elif secondary_option == 3:
-            lore += f"for {random.choice(["their smile", "their voice", "their kindness", "their rudeness", "protecting the innocent", "their acrobatics", "their sense of humor", "their high (insert highest skill here)"])}"
-        elif secondary_option == 4:
-            lore += f"to {random.choice(["go on explosive rants", "help others", "trick others", "do backflips and barrel rolls", "tell people to COOL IT", "run around wildly", "tell bad jokes and puns", "not know a lot of things"])}"
-        elif secondary_option == 5:
-            lore += "among locals"
-    elif choose_option == 3:
-        lore += "they secretly "
-        if secondary_option == 1:
-            lore += "help others"
-        elif secondary_option == 2:
-            lore += "are running away from their past"
-        elif secondary_option == 3:
-            lore += f"love {random.choice(["themselves", "hobgoblins", "stealing candy from kids", "just being lazy", "helping others", "wandering in solitude"])}"
-        elif secondary_option == 4:
-            lore += f"hate {random.choice(["themselves", "hobgoblins", "other races", "their living situation", "helping others", "a party member"])}"
-        elif secondary_option == 5:
-            lore += "have a crush on a PC"
-    elif choose_option == 4:
-        lore += "they are on a quest "
-        if secondary_option == 1:
-            lore += "for vengeance"
-        elif secondary_option == 2:
-            lore += "for redemption"
-        elif secondary_option == 3:
-            lore += f"to find {random.choice(["themselves", "their arch nemisis", "their lost lover", "their child", "their pet", "salvation", "a purpose", "solitude"])}"
-        elif secondary_option == 4:
-            lore += "revive a long lost relative"
-        elif secondary_option == 5:
-            lore += f"to find {random.randint(1, 30)} {random.choice(["Grandfather's Hammers", "Daisies", "Greg The Garlic Farmer", "Zombo points", "Diamonds", "Rare Artifacts", "Lovers", f"People Named {generate_name()}", "Friends"])} in {random.choice(["The Local Area", "The Mountains of Schmargenrog", "Honeywood", "The City of Wrath", "Everwinter woods", "Gareth", "Adventuria", "The Bladegrass Steppes"])}"
-    elif choose_option == 5:
-        lore += "they believe "
-        if secondary_option == 1:
-            lore += "that they are worthless if they don't achieve something big"
-        elif secondary_option == 2:
-            lore += "in the gods"
-        elif secondary_option == 3:
-            lore += f"that they {random.choice(["can change the world", "can do anything", "will cahnge the world", "are important", "are useless", "are intelligent"])}"
-        elif secondary_option == 4:
-            lore += "that they can trust nobody"
-        elif secondary_option == 5:
-            lore += "that the party is their enemy"
-    elif choose_option == 6:
-        lore += "they "
-        if secondary_option == 1:
-            lore += "don't know where babies come from"
-        elif secondary_option == 2:
-            lore += "dont know a lot about the world"
-        elif secondary_option == 3:
-            lore += f"believe that {random.choice(["they are invisible", "the birds do not exist", "magic sucks"])}"
-        elif secondary_option == 4:
-            lore += "eat other people's food at work"
-        elif secondary_option == 5:
-            lore += "don't care about what others think of them"
-        #The logic below is meant to be inclusive, PLEASE feel free to add to this list, I know that there are a lot of unique gender identities out there.
-        #If you have a problem with this piece of code being here because you dislike members of the lgbtq+ community or people with mental disabilities/mental health problems: consider adapting a more loving worldview, hate is not welcome here
-    elif choose_option == 7:
-        lore += "they are " 
-        if secondary_option == 1:
-            lore += f"{random.choice(["autistic", "neurodivergent"])}"
-        elif secondary_option == 2:
-            lore += f"{random.choice(["homosexual", "bisexual", "pansexual"])}"
-        elif secondary_option == 3:
-            lore += "introverted"
-        elif secondary_option == 4:
-            lore += f"{random.choice(["asexual", "aromantic", "aroace"])}"
-        elif secondary_option == 5:
-            lore += "depressed"
-    elif choose_option == 8:
-        lore += "they are also known as "
-        if secondary_option == 1:
-            lore += f"the {random.choice(["doctor", "master", "hero", "great one"])}"
-        elif secondary_option == 2:
-            lore += f"{generate_name()}"
-        elif secondary_option == 3:
-            lore += "a criminal"
-        elif secondary_option == 4:
-            lore += "a healer"
-        elif secondary_option == 5:
-            lore += "a coward"
-    elif choose_option == 9:
-        lore += "they recently lost "
-        if secondary_option == 1:
-            lore += f"a {random.choice(["close friend", "family member", "parent", "lover", "pet"])}"
-        elif secondary_option == 2:
-            lore += f"their special {random.choice(["Pickaxe", "Hammer", "Spear", "Sword", "Rapier", "Shield", "Axe", "Item"])}"
-        elif secondary_option == 3:
-            lore += "something important to them"
-        elif secondary_option == 4:
-            lore += f"their {random.choice(["way of life", "belives", "will to live", "hope", "dreams"])}"
-        elif secondary_option == 5:
-            lore += "their true love"
-    elif choose_option == 10:
-        lore += "they keep having "
-        if secondary_option == 1:
-            lore += f"nightmares about {random.choice(["a great tragedy", "darkness", "a plaque", "lost love", "death", "the end of the world"])}"
-        elif secondary_option == 2:
-            lore += f"dreams about {random.choice(["love", "darkness", "light", "a happier life", "a lost family member", "the gods", "wealth"])}"
-        elif secondary_option == 3:
-            lore += f"thoughts about {random.choice(["suicide", "running away", "following their dreams", "confessing their love", "something far beyond mortals"])}"
-        elif secondary_option == 4:
-            lore += f"dreams from the perspective of {random.choice(["a deity", "a wild animal", "a different person", "a PC"])}"
-        elif secondary_option == 5:
-            lore += "difficulty breathing"
-    elif choose_option == 11:
-        lore += "they dislike "
-        if secondary_option == 1:
-            lore += f"a {random.choice(["local blacksmith", "PC", "local trader", "local ruler", "parent of theirs"])} due to {random.choice(["a minor disagreement", "a confilct of interest", "a conflict of believes", "something minor", "a tragedy"])}"
-        elif secondary_option == 2:
-            lore += "warlocks"
-        elif secondary_option == 3:
-            lore += f"talking to the party due to {random.choice(["their attitude", "difference of believes", "a minor disagreement"])}"
-        elif secondary_option == 4:
-            lore += "their job"
-        elif secondary_option == 5:
-            lore += "other people"
-    elif choose_option == 12:
-        lore += f"they {random.choice(["recently ", ""])}heard a rumor "
-        if secondary_option == 1:
-            lore += f"that {random.choice(["dragons", "the deities", "wizards", "dragonborn", "spellcasters", "artificers", "doctors"])} {random.choice([f"{random.choice(["like", "dislike"])} apples", "eat snakes for breakfast", "have to do a little jump every time they start walking", "can't say prestidigitation", "can't run", "like doing barrelrolls"])}"
-        elif secondary_option == 2:
-            lore += "dynamite is edible"
-        elif secondary_option == 3:
-            lore += f"about {random.choice(["a dragon's", "a king's", "a deity's"])} {random.choice(["favourite food", "favourite color", "favourite game", "love for worms", "greed"])}"
-        elif secondary_option == 4:
-            lore += "about the party"
-        elif secondary_option == 5:
-            lore += f"that {random.choice(["trees", "rocks", "some houses", "mountains", "birds"])} are {random.choice(["fake", "sentient", "gods", "powerful", "out of this world"])}"
-    
+    match choose_option:
+        case 1:
+            lore += "they lost their village "
+            match secondary_option:
+                case 1:
+                    lore += "to a fire"
+                case 2:
+                    lore += "to a natural disaster"
+                case 3:
+                    lore += f"to {random.choice(["a dragon", "a terrasque", "a wyrm", "a wyvern", "bandits", "a lich", "a war", "plague"])}"
+                case 4:
+                    lore += "literally, they dont know where it is"
+                case 5:
+                    lore += "a great tragedy"
+        case 2:
+            lore += "they are known "
+            match secondary_option:
+                case 1:
+                    lore += f"for commiting {random.choice(["arson", "theft", "murder", "to the bit", "robbery", "breaking and entering", "various crimes"])}"
+                case 2:
+                    lore += "for some reason"
+                case 3:
+                    lore += f"for {random.choice(["their smile", "their voice", "their kindness", "their rudeness", "protecting the innocent", "their acrobatics", "their sense of humor", "their high (insert highest skill here)"])}"
+                case 4:
+                    lore += f"to {random.choice(["go on explosive rants", "help others", "trick others", "do backflips and barrel rolls", "tell people to COOL IT", "run around wildly", "tell bad jokes and puns", "not know a lot of things"])}"
+                case 5:
+                    lore += "among locals"
+        case 3:
+            lore += "they secretly "
+            match secondary_option:
+                case 1:
+                    lore += "help others"
+                case 2:
+                    lore += "are running away from their past"
+                case 3:
+                    lore += f"love {random.choice(["themselves", "hobgoblins", "stealing candy from kids", "just being lazy", "helping others", "wandering in solitude"])}"
+                case 4:
+                    lore += f"hate {random.choice(["themselves", "hobgoblins", "other races", "their living situation", "helping others", "a party member"])}"
+                case 5:
+                    lore += "have a crush on a PC"
+        case 4:
+            lore += "they are on a quest "
+            match secondary_option:
+                case 1:
+                    lore += "for vengeance"
+                case 2:
+                    lore += "for redemption"
+                case 3:
+                    lore += f"to find {random.choice(["themselves", "their arch nemisis", "their lost lover", "their child", "their pet", "salvation", "a purpose", "solitude"])}"
+                case 4:
+                    lore += "revive a long lost relative"
+                case 5:
+                    lore += f"to find {random.randint(1, 30)} {random.choice(["Grandfather's Hammers", "Daisies", "Greg The Garlic Farmer", "Zombo points", "Diamonds", "Rare Artifacts", "Lovers", f"People Named {generate_name()}", "Friends"])} in {random.choice(["The Local Area", "The Mountains of Schmargenrog", "Honeywood", "The City of Wrath", "Everwinter woods", "Gareth", "Adventuria", "The Bladegrass Steppes"])}"
+        case 5:
+            lore += "they believe "
+            match secondary_option:
+                case 1:
+                    lore += "that they are worthless if they don't achieve something big"
+                case 2:
+                    lore += "in the gods"
+                case 3:
+                    lore += f"that they {random.choice(["can change the world", "can do anything", "will cahnge the world", "are important", "are useless", "are intelligent"])}"
+                case 4:
+                    lore += "that they can trust nobody"
+                case 5:
+                    lore += "that the party is their enemy"
+        case 6:
+            lore += "they "
+            match secondary_option:
+                case 1:
+                    lore += "don't know where babies come from"
+                case 2:
+                    lore += "dont know a lot about the world"
+                case 3:
+                    lore += f"believe that {random.choice(["they are invisible", "the birds do not exist", "magic sucks"])}"
+                case 4:
+                    lore += "eat other people's food at work"
+                case 5:
+                    lore += "don't care about what others think of them"
+            #The logic below is meant to be inclusive, PLEASE feel free to add to this list, I know that there are a lot of unique gender identities out there.
+            #If you have a problem with this piece of code being here because you dislike members of the lgbtq+ community or people with mental disabilities/mental health problems: consider adapting a more loving worldview, hate is not welcome here
+        case 7:
+            lore += "they are " 
+            match secondary_option:
+                case 1:
+                    lore += f"{random.choice(["autistic", "neurodivergent"])}"
+                case 2:
+                    lore += f"{random.choice(["homosexual", "bisexual", "pansexual"])}"
+                case 3:
+                    lore += "introverted"
+                case 4:
+                    lore += f"{random.choice(["asexual", "aromantic", "aroace"])}"
+                case 5:
+                    lore += "depressed"
+        case 8:
+            lore += "they are also known as "
+            match secondary_option:
+                case 1:
+                    lore += f"the {random.choice(["doctor", "master", "hero", "great one"])}"
+                case 2:
+                    lore += f"{generate_name()}"
+                case 3:
+                    lore += "a criminal"
+                case 4:
+                    lore += "a healer"
+                case 5:
+                    lore += "a coward"
+        case 9:
+            lore += "they recently lost "
+            match secondary_option:
+                case 1:
+                    lore += f"a {random.choice(["close friend", "family member", "parent", "lover", "pet"])}"
+                case 2:
+                    lore += f"their special {random.choice(["Pickaxe", "Hammer", "Spear", "Sword", "Rapier", "Shield", "Axe", "Item"])}"
+                case 3:
+                    lore += "something important to them"
+                case 4:
+                    lore += f"their {random.choice(["way of life", "belives", "will to live", "hope", "dreams"])}"
+                case 5:
+                    lore += "their true love"
+        case 10:
+            lore += "they keep having "
+            match secondary_option:
+                case 1:
+                    lore += f"nightmares about {random.choice(["a great tragedy", "darkness", "a plaque", "lost love", "death", "the end of the world"])}"
+                case 2:
+                    lore += f"dreams about {random.choice(["love", "darkness", "light", "a happier life", "a lost family member", "the gods", "wealth"])}"
+                case 3:
+                    lore += f"thoughts about {random.choice(["suicide", "running away", "following their dreams", "confessing their love", "something far beyond mortals"])}"
+                case 4:
+                    lore += f"dreams from the perspective of {random.choice(["a deity", "a wild animal", "a different person", "a PC"])}"
+                case 5:
+                    lore += "difficulty breathing"
+        case 11:
+            lore += "they dislike "
+            match secondary_option:
+                case 1:
+                    lore += f"a {random.choice(["local blacksmith", "PC", "local trader", "local ruler", "parent of theirs"])} due to {random.choice(["a minor disagreement", "a confilct of interest", "a conflict of believes", "something minor", "a tragedy"])}"
+                case 2:
+                    lore += "warlocks"
+                case 3:
+                    lore += f"talking to the party due to {random.choice(["their attitude", "difference of believes", "a minor disagreement"])}"
+                case 4:
+                    lore += "their job"
+                case 5:
+                    lore += "other people"
+        case 12:
+            lore += f"they {random.choice(["recently ", ""])}heard a rumor "
+            match secondary_option:
+                case 1:
+                    lore += f"that {random.choice(["dragons", "the deities", "wizards", "dragonborn", "spellcasters", "artificers", "doctors"])} {random.choice([f"{random.choice(["like", "dislike"])} apples", "eat snakes for breakfast", "have to do a little jump every time they start walking", "can't say prestidigitation", "can't run", "like doing barrelrolls"])}"
+                case 2:
+                    lore += "dynamite is edible"
+                case 3:
+                    lore += f"about {random.choice(["a dragon's", "a king's", "a deity's"])} {random.choice(["favourite food", "favourite color", "favourite game", "love for worms", "greed"])}"
+                case 4:
+                    lore += "about the party"
+                case 5:
+                    lore += f"that {random.choice(["trees", "rocks", "some houses", "mountains", "birds"])} are {random.choice(["fake", "sentient", "gods", "powerful", "out of this world"])}"
+        
     return lore, choose_option - 1
     
 def generate_lore_2(lore_cat: int) -> str:
