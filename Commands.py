@@ -97,6 +97,7 @@ def commands(user_input: str, argument: str):
             specifications = ["Name", "Race", "Gender", "Age", "N", "MaxAge", "MatureAge", "Job", ""]
             variable_maker(specifications)
             print(f"\033[0;92mTEST 1 SUCCESS\033[0m")
+            dev_file.write(f"TEST 1 SUCCESS\n")
         except Exception as e:
             dev_file.write(f"TEST 1 FAILED - {str(e)}\n")
             print("\033[0;91mTEST 1 FAILED\033[0m")
@@ -105,6 +106,7 @@ def commands(user_input: str, argument: str):
             specifications = ["1200494", "W.D. Gaster", "Pain", "Age", "D20", "-100", "10", "Dungeon Master", "Nothing to see here"]
             variable_maker(specifications)
             print(f"\033[0;92mTEST 2 SUCCESS\033[0m")
+            dev_file.write(f"TEST 2 SUCCESS\n")
         except Exception as e:
             dev_file.write(f"TEST 2 FAILED - {str(e)}\n")
             print("\033[0;91mTEST 2 FAILED\033[0m")
@@ -113,6 +115,7 @@ def commands(user_input: str, argument: str):
             specifications = ["", "", "", "", "", "", "", "", ""]
             variable_maker(specifications)
             print(f"\033[0;92mTEST 3 SUCCESS\033[0m")
+            dev_file.write(f"TEST 3 SUCCESS\n")
         except Exception as e:
             dev_file.write(f"TEST 3 FAILED - {str(e)}\n")
             print("\033[0;91mTEST 3 FAILED\033[0m")
@@ -121,6 +124,7 @@ def commands(user_input: str, argument: str):
             specifications = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
             variable_maker(specifications)
             print(f"\033[0;92mTEST 4 SUCCESS\033[0m")
+            dev_file.write(f"TEST 4 SUCCESS\n")
         except Exception as e:
             dev_file.write(f"TEST 4 FAILED - {str(e)}\n")
             print("\033[0;91mTEST 4 FAILED\033[0m")
@@ -129,6 +133,7 @@ def commands(user_input: str, argument: str):
             specifications = ["☺", "☻", "♥", "♦", "♣", "♠", "•", "◘", "○"]
             variable_maker(specifications)
             print(f"\033[0;92mTEST 5 SUCCESS\033[0m")
+            dev_file.write(f"TEST 5 SUCCESS\n")
         except Exception as e:
             dev_file.write(f"TEST 5 FAILED - {str(e)}\n")
             print("\033[0;91mTEST 5 FAILED\033[0m")
@@ -137,6 +142,7 @@ def commands(user_input: str, argument: str):
             specifications = ["\n", "\n", "\n", "\n", "\n", "\n", "\n", "\n", "\n"]
             variable_maker(specifications)
             print(f"\033[0;92mTEST 6 SUCCESS\033[0m")
+            dev_file.write(f"TEST 6 SUCCESS\n")
         except Exception as e:
             dev_file.write(f"TEST 6 FAILED - {str(e)}\n")
             print("\033[0;91mTEST 6 FAILED\033[0m")
@@ -146,6 +152,7 @@ def commands(user_input: str, argument: str):
             specifications += padding
             variable_maker(specifications)
             print(f"\033[0;92mTEST 7 SUCCESS\033[0m")
+            dev_file.write(f"TEST 7 SUCCESS\n")
         except Exception as e:
             dev_file.write(f"TEST 7 FAILED - {str(e)}\n")
             print("\033[0;91mTEST 7 FAILED\033[0m")
@@ -155,6 +162,7 @@ def commands(user_input: str, argument: str):
             specifications += padding
             variable_maker(specifications)
             print(f"\033[0;92mTEST 8 SUCCESS\033[0m")
+            dev_file.write(f"TEST 8 SUCCESS\n")
         except Exception as e:
             dev_file.write(f"TEST 8 FAILED - {str(e)}\n")
             print("\033[0;91mTEST 8 FAILED\033[0m")
@@ -164,6 +172,7 @@ def commands(user_input: str, argument: str):
             specifications += padding
             variable_maker(specifications)
             print(f"\033[0;92mTEST 9 SUCCESS\033[0m")
+            dev_file.write(f"TEST 9 SUCCESS\n")
         except Exception as e:
             dev_file.write(f"TEST 9 FAILED - {str(e)}\n")
             print("\033[0;91mTEST 9 FAILED\033[0m")
@@ -172,6 +181,7 @@ def commands(user_input: str, argument: str):
             specifications = ["\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m"]
             variable_maker(specifications)
             print(f"\033[0;92mTEST 10 SUCCESS\033[0m")
+            dev_file.write(f"TEST 10 SUCCESS\n")
         except Exception as e:
             dev_file.write(f"TEST 10 FAILED - {str(e)}\n")
             print("\033[0;91mTEST 10 FAILED\033[0m")
