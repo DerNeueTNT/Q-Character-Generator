@@ -9,77 +9,77 @@ from datetime import datetime
 from generators import variable_maker
 from commands import commands
 
-try:
-    timestamp: str = datetime.now().strftime("%d.%m.%Y %H:%M")
-except Exception:
-    timestamp: str = "???"
-
-#Check if the files 'log.txt', 'log_prev.txt' and "dev_log.md" can be accessed
-do_log: bool = True
-dev_log: bool = True
-try:
-    with open("log.txt", "a") as f:
-        pass
-    with open("log_prev.txt", "a") as f:
-        pass
-except (PermissionError, IOError):
-    do_log = False
-
-try:
-    with open("dev_log.md", "a") as f:
-        pass
-except (PermissionError, IOError):
-    dev_log = False
-
-#Make sure that the fiels can actually be written to
-if os.access("log.txt", os.W_OK):
-    pass
-else:
-    do_log = False
-if os.access("log_prev.txt", os.W_OK):
-    pass
-else:
-    do_log = False
-if os.access("dev_log.md", os.W_OK):
-    pass
-else:
-    dev_log = False
-
-
-#Overrides 'log_prev.txt' with the contents of 'log.txt' and clears 'log.txt' for usage
-if do_log == True:
-    if os.path.exists("log.txt"):
-        with open("log.txt", "r") as old_file:
-            content: str = old_file.read()
-        with open("log_prev.txt", "w") as file:
-            file.write(content)
-    with open("log.txt", "w") as file:
-        file.write(f"this log was generated at {timestamp}\n\n")
-    
-
-print("""if any values does not have a valid input, it will use default values
-Input structure: [Name], [Race], [Gender], [Age], [IsChild Y/N], [MaxAge], [MatureAge], [Job], [AdultJob Y/N]
-
-NPCs will be saved to the 'log.txt' file in the directory (folder) the program is stored in, allowing you to access NPCs from the last session
-NPCs from the session before that are stored in 'log_prev.txt' as a safety net.
-
-if this is your first time using this tool or you need a refresher, please type !help
-to quit, type !quit
-      
-Press Enter to start generating!
-""")
-print("")
-
-#If the program can't access/create the 'log.txt' or 'log_prev.txt' files, it prints this warning
-if do_log == False:
-    print("\033[1;5;4;91mCOULD NOT CREATE LOG FILE, THE PROGRAM WILL STILL FUNCTION BUT GENERATED NPCS WILL NOT BE SAVED\033[0m")
-    print("\033[2;5;31mplease check if the program has the permissions required to create files in the current directory or start it as an administrator\033[0m")
-
 def main():
     """
     This is where the magic happens! main() reads the user input, checks if it is a command (and runs the command if it is), 
     generates an NPC based on the user input, saves the NPC to the log.txt file and prints it out.
     """
+    try:
+        timestamp: str = datetime.now().strftime("%d.%m.%Y %H:%M")
+    except Exception:
+        timestamp: str = "???"
+
+    #Check if the files 'log.txt', 'log_prev.txt' and "dev_log.md" can be accessed
+    do_log: bool = True
+    dev_log: bool = True
+    try:
+        with open("log.txt", "a") as f:
+            pass
+        with open("log_prev.txt", "a") as f:
+            pass
+    except (PermissionError, IOError):
+        do_log = False
+
+    try:
+        with open("dev_log.log", "a") as f:
+            pass
+    except (PermissionError, IOError):
+        dev_log = False
+
+    #Make sure that the files can actually be written to
+    if os.access("log.txt", os.W_OK):
+        pass
+    else:
+        do_log = False
+    if os.access("log_prev.txt", os.W_OK):
+        pass
+    else:
+        do_log = False
+    if os.access("dev_log.log", os.W_OK):
+        pass
+    else:
+        dev_log = False
+
+
+    #Overrides 'log_prev.txt' with the contents of 'log.txt' and clears 'log.txt' for usage
+    if do_log == True:
+        if os.path.exists("log.txt"):
+            with open("log.txt", "r") as old_file:
+                content: str = old_file.read()
+            with open("log_prev.txt", "w") as file:
+                file.write(content)
+        with open("log.txt", "w") as file:
+            file.write(f"this log was generated at {timestamp}\n\n")
+    
+
+    print("""if any values does not have a valid input, it will use default values
+    Input structure: [Name], [Race], [Gender], [Age], [IsChild Y/N], [MaxAge], [MatureAge], [Job], [AdultJob Y/N]
+
+    NPCs will be saved to the 'log.txt' file in the directory (folder) the program is stored in, allowing you to access NPCs from the last session
+    NPCs from the session before that are stored in 'log_prev.txt' as a safety net.
+
+    if this is your first time using this tool or you need a refresher, please type !help
+    to quit, type !quit
+        
+    Press Enter to start generating!
+    """)
+    print("")
+
+    #If the program can't access/create the 'log.txt' or 'log_prev.txt' files, it prints this warning
+    if do_log == False:
+        print("\033[1;5;4;91mCOULD NOT CREATE LOG FILE, THE PROGRAM WILL STILL FUNCTION BUT GENERATED NPCS WILL NOT BE SAVED\033[0m")
+        print("\033[2;5;31mplease check if the program has the permissions required to create files in the current directory or start it as an administrator\033[0m")
+
     while True:
 
         user_input = input("").strip()

@@ -72,6 +72,15 @@ def commands(user_input: str, argument: str):
                 \033[2;39m  even if 'IsChild' is set to 'Yes'\033[0m
             """)
     elif user_input.lower() == "!test":
+        def tester(TestNum: int, specifications: list):
+            with open("dev_log.log", "a") as dev_file:
+                try:
+                    variable_maker(specifications)
+                    print(f"\033[0;92mTEST {TestNum} SUCCESS\033[0m")
+                    dev_file.write(f"TEST {TestNum} SUCCESS\n")
+                except Exception as e:
+                    dev_file.write(f"TEST {TestNum} FAILED - {str(e)}\n")
+                    print(f"\033[0;91mTEST {TestNum} FAILED\033[0m")
         try:
             loops: int = int(argument)
         except:
@@ -81,7 +90,7 @@ def commands(user_input: str, argument: str):
         specifications += padding
         counter: int = 1
 
-        with open("dev_log.md", "a") as dev_file:
+        with open("dev_log.log", "a") as dev_file:
             dev_file.write(f"--- Test Session: {datetime.now()} ---\n")
             while counter <= loops:
                 try:
@@ -93,98 +102,19 @@ def commands(user_input: str, argument: str):
                     print(f"\033[0;91mLOOP FAILED {counter}\033[0m")
                 
                 counter += 1
-        try:
-            specifications = ["Name", "Race", "Gender", "Age", "N", "MaxAge", "MatureAge", "Job", ""]
-            variable_maker(specifications)
-            print(f"\033[0;92mTEST 1 SUCCESS\033[0m")
-            dev_file.write(f"TEST 1 SUCCESS\n")
-        except Exception as e:
-            dev_file.write(f"TEST 1 FAILED - {str(e)}\n")
-            print("\033[0;91mTEST 1 FAILED\033[0m")
 
-        try:
-            specifications = ["1200494", "W.D. Gaster", "Pain", "Age", "D20", "-100", "10", "Dungeon Master", "Nothing to see here"]
-            variable_maker(specifications)
-            print(f"\033[0;92mTEST 2 SUCCESS\033[0m")
-            dev_file.write(f"TEST 2 SUCCESS\n")
-        except Exception as e:
-            dev_file.write(f"TEST 2 FAILED - {str(e)}\n")
-            print("\033[0;91mTEST 2 FAILED\033[0m")
-
-        try:
-            specifications = ["", "", "", "", "", "", "", "", ""]
-            variable_maker(specifications)
-            print(f"\033[0;92mTEST 3 SUCCESS\033[0m")
-            dev_file.write(f"TEST 3 SUCCESS\n")
-        except Exception as e:
-            dev_file.write(f"TEST 3 FAILED - {str(e)}\n")
-            print("\033[0;91mTEST 3 FAILED\033[0m")
-
-        try:
-            specifications = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-            variable_maker(specifications)
-            print(f"\033[0;92mTEST 4 SUCCESS\033[0m")
-            dev_file.write(f"TEST 4 SUCCESS\n")
-        except Exception as e:
-            dev_file.write(f"TEST 4 FAILED - {str(e)}\n")
-            print("\033[0;91mTEST 4 FAILED\033[0m")
-
-        try:
-            specifications = ["☺", "☻", "♥", "♦", "♣", "♠", "•", "◘", "○"]
-            variable_maker(specifications)
-            print(f"\033[0;92mTEST 5 SUCCESS\033[0m")
-            dev_file.write(f"TEST 5 SUCCESS\n")
-        except Exception as e:
-            dev_file.write(f"TEST 5 FAILED - {str(e)}\n")
-            print("\033[0;91mTEST 5 FAILED\033[0m")
-
-        try:
-            specifications = ["\n", "\n", "\n", "\n", "\n", "\n", "\n", "\n", "\n"]
-            variable_maker(specifications)
-            print(f"\033[0;92mTEST 6 SUCCESS\033[0m")
-            dev_file.write(f"TEST 6 SUCCESS\n")
-        except Exception as e:
-            dev_file.write(f"TEST 6 FAILED - {str(e)}\n")
-            print("\033[0;91mTEST 6 FAILED\033[0m")
-
-        try:
-            specifications = ["A" * 1000]
-            specifications += padding
-            variable_maker(specifications)
-            print(f"\033[0;92mTEST 7 SUCCESS\033[0m")
-            dev_file.write(f"TEST 7 SUCCESS\n")
-        except Exception as e:
-            dev_file.write(f"TEST 7 FAILED - {str(e)}\n")
-            print("\033[0;91mTEST 7 FAILED\033[0m")
-
-        try:
-            specifications = [",,,,,,,,"]
-            specifications += padding
-            variable_maker(specifications)
-            print(f"\033[0;92mTEST 8 SUCCESS\033[0m")
-            dev_file.write(f"TEST 8 SUCCESS\n")
-        except Exception as e:
-            dev_file.write(f"TEST 8 FAILED - {str(e)}\n")
-            print("\033[0;91mTEST 8 FAILED\033[0m")
-
-        try:
-            specifications = ["Name", "Race", "Gender", "9999999999999999999999999999999999999999999999999999999", "N", "9999999999999999999999999999999999999999999999999999999", "9999999999999999999999999999999999999999999999999999999", "Job", ""]
-            specifications += padding
-            variable_maker(specifications)
-            print(f"\033[0;92mTEST 9 SUCCESS\033[0m")
-            dev_file.write(f"TEST 9 SUCCESS\n")
-        except Exception as e:
-            dev_file.write(f"TEST 9 FAILED - {str(e)}\n")
-            print("\033[0;91mTEST 9 FAILED\033[0m")
-
-        try:
-            specifications = ["\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m"]
-            variable_maker(specifications)
-            print(f"\033[0;92mTEST 10 SUCCESS\033[0m")
-            dev_file.write(f"TEST 10 SUCCESS\n")
-        except Exception as e:
-            dev_file.write(f"TEST 10 FAILED - {str(e)}\n")
-            print("\033[0;91mTEST 10 FAILED\033[0m")
+        tester(1, ["Name", "Race", "Gender", "Age", "N", "MaxAge", "MatureAge", "Job", ""])
+        tester(2, ["1200494", "W.D. Gaster", "Pain", "Age", "D20", "-100", "10", "Dungeon Master", "Nothing to see here"])
+        tester(3, ["", "", "", "", "", "", "", "", ""])
+        tester(4, ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"])
+        tester(5, ["☺", "☻", "♥", "♦", "♣", "♠", "•", "◘", "○"])
+        tester(6, ["\n", "\n", "\n", "\n", "\n", "\n", "\n", "\n", "\n"])
+        tester(7, ["A" * 1000])
+        tester(8, [",,,,,,,,"])
+        tester(9, ["Name", "Race", "Gender", "9999999999999999999999999999999999999999999999999999999", "N", "9999999999999999999999999999999999999999999999999999999", "9999999999999999999999999999999999999999999999999999999", "Job", ""])
+        tester(10, ["\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m"])
+        tester(11, ["", "", "", "", "", "100", "10", "", ""])
+        tester(12, ["", "", "", "", "y", "100", "10", "", ""])
         
         print("\033[1;97mYOUR CODE WORKS\033[0m")
 
@@ -192,6 +122,6 @@ def commands(user_input: str, argument: str):
         sys.exit()
 
     if user_input.lower() == "!clear_dev":
-        with open("dev_log.md", "w") as file:
+        with open("dev_log.log", "w") as file:
             file.write("")
     

@@ -114,7 +114,7 @@ def generate_age(race: str = "", age: str = None, child: str = "", m_age: str = 
         if max_age < child_age:
             max_age = child_age + 1
         if child_age != None:
-                min_age: int = child_age - child_age / 4
+                min_age: int = child_age - child_age // 4
 
     if current_age != None:
         pass
@@ -691,6 +691,7 @@ def generate_lore_2(lore_cat: int) -> str:
 
     return lore
 def variable_maker(specifications: list) -> tuple[str, str, str, str, int, str, str, str, str, str, str]:
+    specifications = (specifications + [""] * 9)[:9]
     gender = generate_gender(specifications[2].strip())
     race: str = generate_race(specifications[1].strip())
     sub_race: str = ""
