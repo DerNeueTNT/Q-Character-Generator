@@ -2,7 +2,7 @@
   <img src="title.png" alt="Q-Character Generator">
 </p>
 
-A tool for when your party questions a random NPc about their life story!
+A tool for when your party questions a random NPC about their life story!
 
 ## Features	    
 - Quickly generate NPCs with
