@@ -1,6 +1,6 @@
 import random
 from datetime import datetime
-from Data import SUPPORTED_RACES, RACE_DATA
+from data import SUPPORTED_RACES, RACE_DATA
 
 def generate_gender(gender: str = "") -> str:
     """
@@ -362,282 +362,319 @@ def generate_lore_2(lore_cat: int) -> str:
 
     #beware of the evil and intimidating lore cat! /j
     
-    if lore_cat == 0: #"they lost their village"
-        if secondary_option == 1:
-            if tertiary_option == 1:
-                lore += "they promised to rebuild it"
-            elif tertiary_option == 2:
-                lore += "they fled from it"
-            elif tertiary_option == 3:
-                lore += "they lost their entire family to it"
-            elif tertiary_option == 4:
-                lore += "they still mourn"
-            elif tertiary_option == 5:
-                lore += "they swore to never forget"
-        else:
-            if tertiary_option == 1:
-                lore += "they weren't there when it happened"
-            elif tertiary_option == 2:
-                lore += "they managed to save almost everyone"
-            elif tertiary_option == 3:
-                lore += "they hated it there anyways"
-            elif tertiary_option == 4:
-                lore += "they had something to do with it"
-            elif tertiary_option == 5:
-                lore += "that was a long time ago"
-    elif lore_cat == 1: #"they are known"
-        if secondary_option == 1:
-            if tertiary_option == 1:
-                lore += "have that reputation for a reason"
-            elif tertiary_option == 2:
-                lore += "don't know about it"
-            elif tertiary_option == 3:
-                lore += "are trying to get rid of this reputation"
-            elif tertiary_option == 4:
-                lore += "don't know how they got this reputation"
-            elif tertiary_option == 5:
-                lore += "that is their biggest achievement in life"
-        else:
-            if tertiary_option == 1:
-                lore += "they don't deserve this reputation"
-            elif tertiary_option == 2:
-                lore += "have no clue why people think that"
-            elif tertiary_option == 3:
-                lore += "don't like this reputation"
-            elif tertiary_option == 4:
-                lore += "only they think that they are known for this"
-            elif tertiary_option == 5:
-                lore += "that's just a straight-up lie"
-    elif lore_cat == 2: #"they secretly"
-        if secondary_option == 1:
-            if tertiary_option == 1:
-                lore += "love to tell people about it"
-            elif tertiary_option == 2:
-                lore += f"are hiding it {random.choice(['pretty well', 'incredibly well', 'horribly'])}"
-            elif tertiary_option == 3:
-                lore += "hope that no one can tell"
-            elif tertiary_option == 4:
-                lore += "hope to keep it a secret"
-            elif tertiary_option == 5:
-                lore += "they hate it"
-        else:
-            if tertiary_option == 1:
-                lore += "suck at hiding it"
-            elif tertiary_option == 2:
-                lore += "can't keep a secret"
-            elif tertiary_option == 3:
-                lore += "don't realize it"
-            elif tertiary_option == 4:
-                lore += "are desperately trying to hide it"
-            elif tertiary_option == 5:
-                lore += "no one believes them when they try to tell somebody"
-    elif lore_cat == 3: #"they are on a quest"
-        if secondary_option == 1:
-            if tertiary_option == 1:
-                lore += "have recently made great progress"
-            elif tertiary_option == 2:
-                lore += "refuse to give up, no matter how many obstacles they face"
-            elif tertiary_option == 3:
-                lore += "just recently started it"
-            elif tertiary_option == 4:
-                lore += "they just didn't think they could do it... until recently"
-            elif tertiary_option == 5:
-                lore += "they take it seriously"
-        else:
-            if tertiary_option == 1:
-                lore += "recently faced a major setback"
-            elif tertiary_option == 2:
-                lore += "they've been busy with other things"
-            elif tertiary_option == 3:
-                lore += "they have given up on it long ago"
-            elif tertiary_option == 4:
-                lore += "already failed"
-            elif tertiary_option == 5:
-                lore += "have no hope of succeeding"
-    elif lore_cat == 4: #"they believe"
-        if secondary_option == 1:
-            if tertiary_option == 1:
-                lore += "stand by this"
-            elif tertiary_option == 2:
-                lore += "refuse to let anyone tell them otherwise"
-            elif tertiary_option == 3:
-                lore += "will debate anyone who belives in a different worldview"
-            elif tertiary_option == 4:
-                lore += "love to tell people about this"
-            elif tertiary_option == 5:
-                lore += "try to apply this to everything"
-        else:
-            if tertiary_option == 1:
-                lore += "are always open to a different worldview"
-            elif tertiary_option == 2:
-                lore += "that's only what they tell people"
-            elif tertiary_option == 3:
-                lore += "but only because of tradition"
-            elif tertiary_option == 4:
-                lore += "don't want people to know about it"
-            elif tertiary_option == 5:
-                lore += "they also think there is more to the world"
-    elif lore_cat == 5: #"they"
-        if secondary_option == 1:
-            if tertiary_option == 1:
-                lore += "no one knows why"
-            elif tertiary_option == 2:
-                lore += f"this is due to a {random.choice(['recent', 'old', ''])} brain injury"
-            elif tertiary_option == 3:
-                lore += "tell everyone about it"
-            elif tertiary_option == 4:
-                lore += "refuse to change their ways"
-            elif tertiary_option == 5:
-                lore += "don't think others notice"
-        else:
-            if tertiary_option == 1:
-                lore += "everyone already knows about this"
-            elif tertiary_option == 2:
-                lore += "no one believes this to be true"
-            elif tertiary_option == 3:
-                lore += "they don't think that matters"
-            elif tertiary_option == 4:
-                lore += "no one else seems to notice"
-            elif tertiary_option == 5:
-                lore += "that is an obvious lie"
-    elif lore_cat == 6: #"they are"
-        if secondary_option == 1:
-            if tertiary_option == 1:
-                lore += "not afraid to admit it"
-            elif tertiary_option == 2:
-                lore += "are annoyingly vocal about it"
-            elif tertiary_option == 3:
-                lore += "intentionally hide it"
-            elif tertiary_option == 4:
-                lore += "want society to become more accepting of people like them"
-            elif tertiary_option == 5:
-                lore += "think this makes them special"
-        else:
-            if tertiary_option == 1:
-                lore += "are too afraid to tell people about it"
-            elif tertiary_option == 2:
-                lore += "don't want to admit it"
-            elif tertiary_option == 3:
-                lore += "don't realize it"
-            elif tertiary_option == 4:
-                lore += "don't want people to know about it"
-            elif tertiary_option == 5:
-                lore += "are forced to behave 'normal'"
-    elif lore_cat == 7: #"they are also known as"
-        if secondary_option == 1:
-            if tertiary_option == 1:
-                lore += "they are the only one that doesn't know this"
-            elif tertiary_option == 2:
-                lore += "like this name more than their actual name"
-            elif tertiary_option == 3:
-                lore += "they hate this nickname"
-            elif tertiary_option == 4:
-                lore += "no one knows where this came from"
-            elif tertiary_option == 5:
-                lore += "try to keep it a secret"
-        else:
-            if tertiary_option == 1:
-                lore += "they wish this wasn't the case"
-            elif tertiary_option == 2:
-                lore += "they want people to stop calling them that"
-            elif tertiary_option == 3:
-                lore += "only close friends get to call them that"
-            elif tertiary_option == 4:
-                lore += "don't want people to know about it"
-            elif tertiary_option == 5:
-                lore += "refuse to acknowledge it"
-    elif lore_cat == 8: #"they recently lost"
-        if secondary_option == 1:
-            if tertiary_option == 1:
-                lore += "they still mourn this"
-            elif tertiary_option == 2:
-                lore += "they are responsible for it"
-            elif tertiary_option == 3:
-                lore += "they blame only themselves for it"
-            elif tertiary_option == 4:
-                lore += "they blame everyone else for it"
-            elif tertiary_option == 5:
-                lore += "wish to undo this"
-        else:
-            if tertiary_option == 1:
-                lore += "they refuse to think about it"
-            elif tertiary_option == 2:
-                lore += "can't be bothered to mourn"
-            elif tertiary_option == 3:
-                lore += "they don't know this yet"
-            elif tertiary_option == 4:
-                lore += "haven't told anybody about it"
-            elif tertiary_option == 5:
-                lore += "they actually wanted this to happen"
-    elif lore_cat == 9: #"they keep having"
-        if secondary_option == 1:
-            if tertiary_option == 1:
-                lore += "are concerned by this"
-            elif tertiary_option == 2:
-                lore += "need to tell somebody about it"
-            elif tertiary_option == 3:
-                lore += "keep bringing it up"
-            elif tertiary_option == 4:
-                lore += "are trying to hide it"
-            elif tertiary_option == 5:
-                lore += "are genuinely freaked out by this"
-        else:
-            if tertiary_option == 1:
-                lore += "forget about it every time"
-            elif tertiary_option == 2:
-                lore += "don't think it's important"
-            elif tertiary_option == 3:
-                lore += "haven't told anybody"
-            elif tertiary_option == 4:
-                lore += "this is normal for them"
-            elif tertiary_option == 5:
-                lore += "they want no one to know"
-    elif lore_cat == 10: #"they dislike"
-        if secondary_option == 1:
-            if tertiary_option == 1:
-                lore += "this is just annoying for everyone involved"
-            elif tertiary_option == 2:
-                lore += "refuse to apologize"
-            elif tertiary_option == 3:
-                lore += "this is entirely their fault"
-            elif tertiary_option == 4:
-                lore += "it has ruined their life"
-            elif tertiary_option == 5:
-                lore += f"this has made them {random.choice(['infamous', 'famous'])}"
-        else:
-            if tertiary_option == 1:
-                lore += "no one really cares"
-            elif tertiary_option == 2:
-                lore += "they don't act upon it"
-            elif tertiary_option == 3:
-                lore += "don't tell anybody about it"
-            elif tertiary_option == 4:
-                lore += "they are able to change"
-            elif tertiary_option == 5:
-                lore += "there is a greater story behind it"
-    elif lore_cat == 11: #"they (recently) heard a rumor"
-        if secondary_option == 1:
-            if tertiary_option == 1:
-                lore += "are letting it shape their worldview"
-            elif tertiary_option == 2:
-                lore += "they are convinced it's true"
-            elif tertiary_option == 3:
-                lore += "love spreading it"
-            elif tertiary_option == 4:
-                lore += "it is the only thing they want to talk about"
-            elif tertiary_option == 5:
-                lore += "didn't think to question it"
-        else:
-            if tertiary_option == 1:
-                lore += "they didn't believe it"
-            elif tertiary_option == 2:
-                lore += "they secretly started it"
-            elif tertiary_option == 3:
-                lore += "can't quite remember it right"
-            elif tertiary_option == 4:
-                lore += "hate it"
-            elif tertiary_option == 5:
-                lore += "think it might only be partially true"
+    match lore_cat:
+        case 0: #"they lost their village"
+            match secondary_option:
+                case 1:
+                    match tertiary_option:
+                        case 1:
+                            lore += "they promised to rebuild it"
+                        case 2:
+                            lore += "they fled from it"
+                        case 3:
+                            lore += "they lost their entire family to it"
+                        case 4:
+                            lore += "they still mourn"
+                        case 5:
+                            lore += "they swore to never forget"
+                case 2:
+                    match tertiary_option:
+                        case 1:
+                            lore += "they weren't there when it happened"
+                        case 2:
+                            lore += "they managed to save almost everyone"
+                        case 3:
+                            lore += "they hated it there anyways"
+                        case 4:
+                            lore += "they had something to do with it"
+                        case 5:
+                            lore += "that was a long time ago"
+        case 1: #"they are known"
+            match secondary_option:
+                case 1:
+                    match tertiary_option:
+                        case 1:
+                            lore += "have that reputation for a reason"
+                        case 2:
+                            lore += "don't know about it"
+                        case 3:
+                            lore += "are trying to get rid of this reputation"
+                        case 4:
+                            lore += "don't know how they got this reputation"
+                        case 5:
+                            lore += "that is their biggest achievement in life"
+                case 2:
+                    match tertiary_option:
+                        case 1:
+                            lore += "they don't deserve this reputation"
+                        case 2:
+                            lore += "have no clue why people think that"
+                        case 3:
+                            lore += "don't like this reputation"
+                        case 4:
+                            lore += "only they think that they are known for this"
+                        case 5:
+                            lore += "that's just a straight-up lie"
+        case 2: #"they secretly"
+            match secondary_option:
+                case 1:
+                    match tertiary_option:
+                        case 1:
+                            lore += "love to tell people about it"
+                        case 2:
+                            lore += f"are hiding it {random.choice(['pretty well', 'incredibly well', 'horribly'])}"
+                        case 3:
+                            lore += "hope that no one can tell"
+                        case 4:
+                            lore += "hope to keep it a secret"
+                        case 5:
+                            lore += "they hate it"
+                case 2:
+                    match tertiary_option:
+                        case 1:
+                            lore += "suck at hiding it"
+                        case 2:
+                            lore += "can't keep a secret"
+                        case 3:
+                            lore += "don't realize it"
+                        case 4:
+                            lore += "are desperately trying to hide it"
+                        case 5:
+                            lore += "no one believes them when they try to tell somebody"
+        case 3: #"they are on a quest"
+            match secondary_option:
+                case 1:
+                    match tertiary_option:
+                        case 1:
+                            lore += "have recently made great progress"
+                        case 2:
+                            lore += "refuse to give up, no matter how many obstacles they face"
+                        case 3:
+                            lore += "just recently started it"
+                        case 4:
+                            lore += "they just didn't think they could do it... until recently"
+                        case 5:
+                            lore += "they take it seriously"
+                case 2:
+                    match tertiary_option:
+                        case 1:
+                            lore += "recently faced a major setback"
+                        case 2:
+                            lore += "they've been busy with other things"
+                        case 3:
+                            lore += "they have given up on it long ago"
+                        case 4:
+                            lore += "already failed"
+                        case 5:
+                            lore += "have no hope of succeeding"
+        case 4: #"they believe"
+            match secondary_option:
+                case 1:
+                    match tertiary_option:
+                        case 1:
+                            lore += "stand by this"
+                        case 2:
+                            lore += "refuse to let anyone tell them otherwise"
+                        case 3:
+                            lore += "will debate anyone who belives in a different worldview"
+                        case 4:
+                            lore += "love to tell people about this"
+                        case 5:
+                            lore += "try to apply this to everything"
+                case 2:
+                    match tertiary_option:
+                        case 1:
+                            lore += "are always open to a different worldview"
+                        case 2:
+                            lore += "that's only what they tell people"
+                        case 3:
+                            lore += "but only because of tradition"
+                        case 4:
+                            lore += "don't want people to know about it"
+                        case 5:
+                            lore += "they also think there is more to the world"
+        case 5: #"they"
+            match secondary_option:
+                case 1:
+                    match tertiary_option:
+                        case 1:
+                            lore += "no one knows why"
+                        case 2:
+                            lore += f"this is due to a {random.choice(['recent', 'old', ''])} brain injury"
+                        case 3:
+                            lore += "tell everyone about it"
+                        case 4:
+                            lore += "refuse to change their ways"
+                        case 5:
+                            lore += "don't think others notice"
+                case 2:
+                    match tertiary_option:
+                        case 1:
+                            lore += "everyone already knows about this"
+                        case 2:
+                            lore += "no one believes this to be true"
+                        case 3:
+                            lore += "they don't think that matters"
+                        case 4:
+                            lore += "no one else seems to notice"
+                        case 5:
+                            lore += "that is an obvious lie"
+        case 6: #"they are"
+            match secondary_option:
+                case 1:
+                    match tertiary_option:
+                        case 1:
+                            lore += "not afraid to admit it"
+                        case 2:
+                            lore += "are annoyingly vocal about it"
+                        case 3:
+                            lore += "intentionally hide it"
+                        case 4:
+                            lore += "want society to become more accepting of people like them"
+                        case 5:
+                            lore += "think this makes them special"
+                case 2:
+                    match tertiary_option:
+                        case 1:
+                            lore += "are too afraid to tell people about it"
+                        case 2:
+                            lore += "don't want to admit it"
+                        case 3:
+                            lore += "don't realize it"
+                        case 4:
+                            lore += "don't want people to know about it"
+                        case 5:
+                            lore += "are forced to behave 'normal'"
+        case 7: #"they are also known as"
+            match secondary_option:
+                case 1:
+                    match tertiary_option:
+                        case 1:
+                            lore += "they are the only one that doesn't know this"
+                        case 2:
+                            lore += "like this name more than their actual name"
+                        case 3:
+                            lore += "they hate this nickname"
+                        case 4:
+                            lore += "no one knows where this came from"
+                        case 5:
+                            lore += "try to keep it a secret"
+                case 2:
+                    match tertiary_option:
+                        case 1:
+                            lore += "they wish this wasn't the case"
+                        case 2:
+                            lore += "they want people to stop calling them that"
+                        case 3:
+                            lore += "only close friends get to call them that"
+                        case 4:
+                            lore += "don't want people to know about it"
+                        case 5:
+                            lore += "refuse to acknowledge it"
+        case 8: #"they recently lost"
+            match secondary_option:
+                case 1:
+                    match tertiary_option:
+                        case 1:
+                            lore += "they still mourn this"
+                        case 2:
+                            lore += "they are responsible for it"
+                        case 3:
+                            lore += "they blame only themselves for it"
+                        case 4:
+                            lore += "they blame everyone else for it"
+                        case 5:
+                            lore += "wish to undo this"
+                case 2:
+                    match tertiary_option:
+                        case 1:
+                            lore += "they refuse to think about it"
+                        case 2:
+                            lore += "can't be bothered to mourn"
+                        case 3:
+                            lore += "they don't know this yet"
+                        case 4:
+                            lore += "haven't told anybody about it"
+                        case 5:
+                            lore += "they actually wanted this to happen"
+        case 9: #"they keep having"
+            match secondary_option:
+                case 1:
+                    match tertiary_option:
+                        case 1:
+                            lore += "are concerned by this"
+                        case 2:
+                            lore += "need to tell somebody about it"
+                        case 3:
+                            lore += "keep bringing it up"
+                        case 4:
+                            lore += "are trying to hide it"
+                        case 5:
+                            lore += "are genuinely freaked out by this"
+                case 2:
+                    match tertiary_option:
+                        case 1:
+                            lore += "forget about it every time"
+                        case 2:
+                            lore += "don't think it's important"
+                        case 3:
+                            lore += "haven't told anybody"
+                        case 4:
+                            lore += "this is normal for them"
+                        case 5:
+                            lore += "they want no one to know"
+        case 10: #"they dislike"
+            match secondary_option:
+                case 1:
+                    match tertiary_option:
+                        case 1:
+                            lore += "this is just annoying for everyone involved"
+                        case 2:
+                            lore += "refuse to apologize"
+                        case 3:
+                            lore += "this is entirely their fault"
+                        case 4:
+                            lore += "it has ruined their life"
+                        case 5:
+                            lore += f"this has made them {random.choice(['infamous', 'famous'])}"
+                case 2:
+                    match tertiary_option:
+                        case 1:
+                            lore += "no one really cares"
+                        case 2:
+                            lore += "they don't act upon it"
+                        case 3:
+                            lore += "don't tell anybody about it"
+                        case 4:
+                            lore += "they are able to change"
+                        case 5:
+                            lore += "there is a greater story behind it"
+        case 11: #"they (recently) heard a rumor"
+            match secondary_option:
+                case 1:
+                    match tertiary_option:
+                        case 1:
+                            lore += "are letting it shape their worldview"
+                        case 2:
+                            lore += "they are convinced it's true"
+                        case 3:
+                            lore += "love spreading it"
+                        case 4:
+                            lore += "it is the only thing they want to talk about"
+                        case 5:
+                            lore += "didn't think to question it"
+                case 2:
+                    match tertiary_option:
+                        case 1:
+                            lore += "they didn't believe it"
+                        case 2:
+                            lore += "they secretly started it"
+                        case 3:
+                            lore += "can't quite remember it right"
+                        case 4:
+                            lore += "hate it"
+                        case 5:
+                            lore += "think it might only be partially true"
 
     return lore
 def variable_maker(specifications: list) -> tuple[str, str, str, str, int, str, str, str, str, str, str]:

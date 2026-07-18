@@ -1,7 +1,7 @@
 import os
 import sys
 from datetime import datetime
-from Generators import variable_maker
+from generators import variable_maker
 
 def commands(user_input: str, argument: str):
     """

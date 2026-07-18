@@ -3,5 +3,5 @@ dist/
 *.spec
 __pycache__/
 log.txt
-prev_log.txt
+log_prev.txt
 dev_log.md

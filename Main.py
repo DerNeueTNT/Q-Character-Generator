@@ -6,8 +6,8 @@
 import time
 import os
 from datetime import datetime
-from Generators import variable_maker
-from Commands import commands
+from generators import variable_maker
+from commands import commands
 
 try:
     timestamp: str = datetime.now().strftime("%d.%m.%Y %H:%M")
@@ -93,7 +93,6 @@ def main():
             com = parts[0]
             arg = parts[1]
             commands(com, arg) 
-            isTrue = False #x
             continue
 
         specifications = user_input.split(",")
@@ -132,4 +131,5 @@ def main():
         time.sleep(0.1)
         print(f"\033[0;36mLore:\033[0m {lore1} {lore2}")
 
-main()
+if __name__ == "__main__":
+    main()
