@@ -1,15 +1,10 @@
-```
-   ___         ____ _                          _               ____                           _             
-  / _ \       / ___| |__   __ _ _ __ __ _  ___| |_ ___ _ __   / ___| ___ _ __   ___ _ __ __ _| |_ ___  _ __ 
- | | | |_____| |   | '_ \ / _` | '__/ _` |/ __| __/ _ \ '__| | |  _ / _ \ '_ \ / _ \ '__/ _` | __/ _ \| '__|
- | |_| |_____| |___| | | | (_| | | | (_| | (__| ||  __/ |    | |_| |  __/ | | |  __/ | | (_| | || (_) | |   
-  \__\_\      \____|_| |_|\__,_|_|  \__,_|\___|\__\___|_|     \____|\___|_| |_|\___|_|  \__,_|\__\___/|_|
+<p align="center">
+  <img src="title.png" alt="Q-Character Generator">
+</p>
 
 A tool for when your party questions a random NPc about their life story!
 
- =======================
-|	     Features	    |
- =======================
+## Features	    
 > Quickly generate NPCs with
   - A randomly generated Name, Gender, Race and Profession
   - A set of randomly generated Ability scores (based on Dungeons and Dragons)
@@ -21,17 +16,13 @@ A tool for when your party questions a random NPc about their life story!
 
 > Automatic logging to ensure that you don't loose important NPCs!
 
- ========================
-|	     How to use	     |
- ========================
+## How to use
 1. Run 'NPC_Generator.exe'.
 2. Enter specifications such as (Name, Race, Gender, etc.) or simply press enter to start generating.
 3. Type !help and press enter if you are unsure on how to use the tool.
 4. Type !quit to end the program
 
- ============================
-|	     For Developers	     |
- ============================
+## For Developers
 If you wish to modify the source code:
 > Required: python 3.10+
 > Run via: 'python main.py'
@@ -40,4 +31,3 @@ If you wish to modify the source code:
 > Do not leave hateful comments in the code
 > This code was written by me after 2 weeks of learning python, when I started this project I didn't even know about OOP, 
   so please excuse and misusage of terminology and strange code implementations
-```
