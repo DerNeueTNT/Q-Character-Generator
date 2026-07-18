@@ -34,7 +34,7 @@ def generate_name(name: str = "", race: str = "", gender: str = "") -> str:
     last_name_type: int = random.randint(1, 4)
     full_name = ""
     race = race.title()
-
+    
     if name != "":
         return(name)
     if race in SUPPORTED_RACES:
