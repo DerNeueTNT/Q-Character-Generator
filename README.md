@@ -4,6 +4,9 @@
 
 A tool for when your party questions a random NPC about their life story!
 
+### Diclaimer:
+I am an independent developer. When running the .exe on Windows, a 'SmartScreen' warning may appear because the file is not digitally signed. This is a common occurrence for independent software. To run the tool, click 'More Info' and then 'Run Anyway'.
+
 ## Features	    
 - Quickly generate NPCs with
   - A randomly generated Name, Gender, Race and Profession
@@ -21,6 +24,12 @@ A tool for when your party questions a random NPC about their life story!
 2. Enter specifications such as (Name, Race, Gender, etc.) or simply press enter to start generating.
 3. Type !help and press enter if you are unsure on how to use the tool.
 4. Type !quit to end the program
+
+## For Linux Users
+1. Download Q-Character-Generator-Linux.
+2. Open your terminal in the download folder.
+3. Give the file permission to run: chmod +x Q-Character-Generator-Linux
+4. Run it: ./Q-Character-Generator-Linux
 
 ## For Developers
 If you wish to modify the source code:
