@@ -4,7 +4,7 @@
 
 A tool for when your party questions a random NPC about their life story!
 
-### Diclaimer:
+### Disclaimer:
 I am an independent developer. When running the .exe on Windows, a 'SmartScreen' warning may appear because the file is not digitally signed. This is a common occurrence for independent software. To run the tool, click 'More Info' and then 'Run Anyway'.
 
 ## Features	    
