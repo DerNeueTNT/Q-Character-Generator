@@ -1,6 +1,6 @@
 import random
 from datetime import datetime
-from data import SUPPORTED_RACES, RACE_DATA
+from data import SUPPORTED_RACES, RACE_DATA, GENERIC_PERSONALITIES
 
 def generate_gender(gender: str = "") -> str:
     """
@@ -753,6 +753,8 @@ def variable_maker(specifications: list) -> tuple[str, str, str, str, int, str, 
             continue
         break
     lore4: str = generate_lore_2(lore3_cat)
-    pool = list(set(personality1 + personality2))
+    lore_tags = personality1 + personality2
+    extra_traits = random.sample(GENERIC_PERSONALITIES, 3)
+    pool = list(set(lore_tags + extra_traits))
     personality = random.sample(pool, 2)
     return gender, race, sub_race, name, age, profession, stats, stats_clean, speech_quirk, lore1, lore2, lore3, lore4, personality

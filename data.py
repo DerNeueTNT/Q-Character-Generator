@@ -4,6 +4,8 @@ GENERIC_FEMALE: list = ["Olivia", "Charlotte", "Emma", "Ammi", "Amelia", "Luna",
 GENERIC_MIDDLE: list = ["Van", "Vor", "Quinn", "Sage", "Blake", "Reese", "Ellis", "Gera", "Lari", "Kris", "Mario", "Ash", "Liv", "Korra", "Sorg", "Libbith", "Lee"]
 GENERIC_LAST: list = ["Everwind", "Rockfell", "Walker", "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Galindor", "Bramblecrack", "Treefell", "Everwood", "Toadfolk", "Risinger", "Cerola", "Ernst", "Everwinter", "Mulligan", "Barth"]
 
+GENERIC_PERSONALITIES: list = ["kind", "happy", "hopeful", "stressed", "depressed", "arrogant", "emotional", "intelligent", "cunning", "reliable", "honest", "deceitful", "assertive", "analytical", "dumb", "annoying", "helpful", "evil", "devoted", "patient", "brave", "determined", "frightening", "innocent", "violent", "greedy", "shy"]
+
 #If a race just uses the "Generic" entry in the dictionary, pelase do not add it to this list
 SUPPORTED_RACES: list = ["Elf", "Dwarf", "Gnome", "Giant", "Goliath", "Orc", "Dragonborn", "Half-Elf", "Half-Orc", "Tiefling", "Kobold", "Warforged"]
 
