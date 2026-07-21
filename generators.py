@@ -339,7 +339,7 @@ def generate_lore() -> tuple[str, int, list[str]]:
                 case 2:
                     lore += f"{generate_name()}"
                 case 3:
-                    lore += "they only survivor of a great war"
+                    lore += "the only survivor of a great war"
                 case 4:
                     lore += "a horrible person"
                 case 5:
