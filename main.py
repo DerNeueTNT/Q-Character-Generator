@@ -1,5 +1,5 @@
 # MESSAGE TO OTHER DEVS:
-# please run the command '!test' before submitting a pull request. (note that this command does take a number of loops as an argument, but please run it a minimum of 1000 (default number) times)
+# please run the command '!test 10000' before submitting a pull request. (note that this command does take a number of loops as an argument, but please run it a minimum of 1000 (default number) times)
 # even if you are very confident in your skills, we all make mistakes
 # use !clear_dev to clear the dev_log.md file
 
