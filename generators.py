@@ -187,20 +187,51 @@ def generate_speech_quirk() -> str:
     """
     Generate a speech quirk to make the NPC more memorable.
     """
-    quirks: list = ["with a big mouth", f"as if they had something in their throat", "as if they were hiding something", "very fast", "slowly", "everything as if it was a question", "only in rhymes", "with a germanic accent", "with an italian accent", "with a british accent", "with a french accent", "without pausing between words", "every word as written", "hesitantly", "with a stutter", "with a small mouth", "with their mouth closed", "breathily", "just generally strangely", "like a snake", "as if they just finished a marathon", "angrily", "like a detective noir", "in third person", "overly dramatic"]
-    speech_quirks: list = random.sample(quirks, 2)
-    return f"Speaks {speech_quirks[0]} and {speech_quirks[1]}"
+def generate_speech_quirk() -> str:
+    quirks: list = [
+        "with a big mouth", "as if they had something in their throat", 
+        "as if they were hiding something", "very fast", "slowly", 
+        "everything as if it was a question", "only in rhymes", 
+        "with a germanic accent", "with an italian accent", 
+        "with a british accent", "with a french accent", 
+        "without pausing between words", "every word as written", 
+        "hesitantly", "with a stutter", "with a small mouth", 
+        "with their mouth closed", "breathily", "just generally strangely", 
+        "like a snake", "as if they just finished a marathon", 
+        "angrily", "like a detective noir", "in third person", "overly dramatic"
+    ]
 
-def generate_lore() -> tuple[str, int]:
+    forbidden_groups = [
+        {"very fast", "slowly", "without pausing between words", "with a stutter"},
+        {"with a big mouth", "with a small mouth", "with their mouth closed"},
+        {"with a germanic accent", "with an italian accent", "with a british accent", "with a french accent"}
+    ]
+
+    while True:
+        selection = random.sample(quirks, 2)
+        is_invalid = False
+        
+        for group in forbidden_groups:
+            overlap = group.intersection(set(selection))
+            if len(overlap) > 1:
+                is_invalid = True
+                break
+        
+        if not is_invalid:
+            return f"Speaks {selection[0]} and {selection[1]}"
+
+def generate_lore() -> tuple[str, int, list[str]]:
     """
     Generates the first half of the lore string.
     """
     lore: str = ""
+    personality_cat: list = []
     secondary_option: int = random.randint(1, 5)
     choose_option: int = random.randint(1, 12)
     match choose_option:
         case 1:
             lore += "they lost their village "
+            personality_cat = ["traumatized", "emotionless", "depressed"]
             match secondary_option:
                 case 1:
                     lore += "to a fire"
@@ -209,14 +240,15 @@ def generate_lore() -> tuple[str, int]:
                 case 3:
                     lore += f"to {random.choice(["a dragon", "a terrasque", "a wyrm", "a wyvern", "bandits", "a lich", "a war", "plague"])}"
                 case 4:
-                    lore += "literally, they dont know where it is"
+                    lore += "long ago"
                 case 5:
                     lore += "a great tragedy"
         case 2:
             lore += "they are known "
+            personality_cat = ["smug", "self concious", "annoying"]
             match secondary_option:
                 case 1:
-                    lore += f"for commiting {random.choice(["arson", "theft", "murder", "to the bit", "robbery", "breaking and entering", "various crimes"])}"
+                    lore += f"for commiting {random.choice(["arson", "theft", "murder", "robbery", "breaking and entering", "various crimes"])}"
                 case 2:
                     lore += "for some reason"
                 case 3:
@@ -227,6 +259,7 @@ def generate_lore() -> tuple[str, int]:
                     lore += "among locals"
         case 3:
             lore += "they secretly "
+            personality_cat = ["helpful", "shy", "secretive"]
             match secondary_option:
                 case 1:
                     lore += "help others"
@@ -240,6 +273,7 @@ def generate_lore() -> tuple[str, int]:
                     lore += "have a crush on a PC"
         case 4:
             lore += "they are on a quest "
+            personality_cat = ["devoted", "happy", "determined"]
             match secondary_option:
                 case 1:
                     lore += "for vengeance"
@@ -250,9 +284,10 @@ def generate_lore() -> tuple[str, int]:
                 case 4:
                     lore += "revive a long lost relative"
                 case 5:
-                    lore += f"to find {random.randint(1, 30)} {random.choice(["Grandfather's Hammers", "Daisies", "Greg The Garlic Farmer", "Zombo points", "Diamonds", "Rare Artifacts", "Lovers", f"People Named {generate_name()}", "Friends"])} in {random.choice(["The Local Area", "The Mountains of Schmargenrog", "Honeywood", "The City of Wrath", "Everwinter woods", "Gareth", "Adventuria", "The Bladegrass Steppes"])}"
+                    lore += f"to regain their {random.choice(["honor", "memory", "wisdom", "love"])}"
         case 5:
             lore += "they believe "
+            personality_cat = ["gullible", "determined", "passive"]
             match secondary_option:
                 case 1:
                     lore += "that they are worthless if they don't achieve something big"
@@ -266,21 +301,24 @@ def generate_lore() -> tuple[str, int]:
                     lore += "that the party is their enemy"
         case 6:
             lore += "they "
+            personality_cat = ["arrogant", "smug", "suspicious"]
             match secondary_option:
                 case 1:
-                    lore += "don't know where babies come from"
+                    lore += "behave in suspicious ways"
                 case 2:
                     lore += "dont know a lot about the world"
                 case 3:
-                    lore += f"believe that {random.choice(["they are invisible", "the birds do not exist", "magic sucks"])}"
+                    lore += f"believe that they are {random.choice(["more important than everyone else", "useless", "a lost cause"])}"
                 case 4:
-                    lore += "eat other people's food at work"
+                    lore += "make other people do their work for them"
                 case 5:
                     lore += "don't care about what others think of them"
             #The logic below is meant to be inclusive, PLEASE feel free to add to this list, I know that there are a lot of unique gender identities out there.
             #If you have a problem with this piece of code being here because you dislike members of the lgbtq+ community or people with mental disabilities/mental health problems: consider adapting a more loving worldview, hate is not welcome here
         case 7:
             lore += "they are " 
+            #these are just 3 random traits I came up with, feel free to change
+            personality_cat = ["kind", "depressed", "passive"]
             match secondary_option:
                 case 1:
                     lore += f"{random.choice(["autistic", "neurodivergent"])}"
@@ -291,22 +329,24 @@ def generate_lore() -> tuple[str, int]:
                 case 4:
                     lore += f"{random.choice(["asexual", "aromantic", "aroace"])}"
                 case 5:
-                    lore += "depressed"
+                    lore += "not who they wish to be"
         case 8:
-            lore += "they are also known as "
+            lore += "they are known as "
+            personality_cat = ["kind", "fearful", "frightening"]
             match secondary_option:
                 case 1:
-                    lore += f"the {random.choice(["doctor", "master", "hero", "great one"])}"
+                    lore += f"a {random.choice(["doctor", "master of their craft", "hero", "great one", "criminal", "coward"])}"
                 case 2:
                     lore += f"{generate_name()}"
                 case 3:
-                    lore += "a criminal"
+                    lore += "they only survivor of a great war"
                 case 4:
-                    lore += "a healer"
+                    lore += "a horrible person"
                 case 5:
-                    lore += "a coward"
+                    lore += "untrustworthy"
         case 9:
             lore += "they recently lost "
+            personality_cat = ["depressed", "traumatized", "emotional"]
             match secondary_option:
                 case 1:
                     lore += f"a {random.choice(["close friend", "family member", "parent", "lover", "pet"])}"
@@ -320,6 +360,7 @@ def generate_lore() -> tuple[str, int]:
                     lore += "their true love"
         case 10:
             lore += "they keep having "
+            personality_cat = ["paranoid", "fearful", "hopeful"]
             match secondary_option:
                 case 1:
                     lore += f"nightmares about {random.choice(["a great tragedy", "darkness", "a plaque", "lost love", "death", "the end of the world"])}"
@@ -333,6 +374,7 @@ def generate_lore() -> tuple[str, int]:
                     lore += "difficulty breathing"
         case 11:
             lore += "they dislike "
+            personality_cat = ["lonely", "arrogant", "pychopathic"]
             match secondary_option:
                 case 1:
                     lore += f"a {random.choice(["local blacksmith", "PC", "local trader", "local ruler", "parent of theirs"])} due to {random.choice(["a minor disagreement", "a confilct of interest", "a conflict of believes", "something minor", "a tragedy"])}"
@@ -346,19 +388,20 @@ def generate_lore() -> tuple[str, int]:
                     lore += "other people"
         case 12:
             lore += f"they {random.choice(["recently ", ""])}heard a rumor "
+            personality_cat = ["gullible", "hateful", "greedy"]
             match secondary_option:
                 case 1:
-                    lore += f"that {random.choice(["dragons", "the deities", "wizards", "dragonborn", "spellcasters", "artificers", "doctors"])} {random.choice([f"{random.choice(["like", "dislike"])} apples", "eat snakes for breakfast", "have to do a little jump every time they start walking", "can't say prestidigitation", "can't run", "like doing barrelrolls"])}"
+                    lore += f"that {random.choice(["dragons", "wizards", "dragonborn", "spellcasters", "the party"])} are {random.choice(["murderers", "criminals", "cultists", "dangerous", "bad people"])}"
                 case 2:
-                    lore += "dynamite is edible"
+                    lore += "everything they care for has been destroyed"
                 case 3:
-                    lore += f"about {random.choice(["a dragon's", "a king's", "a deity's"])} {random.choice(["favourite food", "favourite color", "favourite game", "love for worms", "greed"])}"
+                    lore += f"about {random.choice(["a monster's", "a king's", "a deity's", "a party member's", "the party's"])} {random.choice(["greed", "past", "crimes", "curse", "hate"])}"
                 case 4:
                     lore += "about the party"
                 case 5:
-                    lore += f"that {random.choice(["trees", "rocks", "some houses", "mountains", "birds"])} are {random.choice(["fake", "sentient", "gods", "powerful", "out of this world"])}"
+                    lore += f"of {random.choice(["an incredible treasure", "a horrible curse", "an ancient spell", f"a powerful {random.choice(['warlock', 'wizard', 'sorcerer', 'Paladin', 'Warrior'])}"])}"
         
-    return lore, choose_option - 1
+    return lore, choose_option - 1, personality_cat
     
 def generate_lore_2(lore_cat: int) -> str:
     """
@@ -373,7 +416,7 @@ def generate_lore_2(lore_cat: int) -> str:
     else:
         lore += "but "
 
-    #beware of the evil and intimidating lore cat! /j
+        #beware of the evil and intimidating lore cat! /j
     
     match lore_cat:
         case 0: #"they lost their village"
@@ -513,7 +556,7 @@ def generate_lore_2(lore_cat: int) -> str:
                         case 1:
                             lore += "no one knows why"
                         case 2:
-                            lore += f"this is due to a {random.choice(['recent', 'old', ''])} brain injury"
+                            lore += f"this is due to a {random.choice(['recent', 'old', ''])} health issue"
                         case 3:
                             lore += "tell everyone about it"
                         case 4:
@@ -558,7 +601,7 @@ def generate_lore_2(lore_cat: int) -> str:
                             lore += "don't want people to know about it"
                         case 5:
                             lore += "are forced to behave 'normal'"
-        case 7: #"they are also known as"
+        case 7: #"they are known as"
             match secondary_option:
                 case 1:
                     match tertiary_option:
@@ -603,7 +646,7 @@ def generate_lore_2(lore_cat: int) -> str:
                         case 1:
                             lore += "they refuse to think about it"
                         case 2:
-                            lore += "can't be bothered to mourn"
+                            lore += "haven't been able to mourn"
                         case 3:
                             lore += "they don't know this yet"
                         case 4:
@@ -671,7 +714,7 @@ def generate_lore_2(lore_cat: int) -> str:
                         case 2:
                             lore += "they are convinced it's true"
                         case 3:
-                            lore += "love spreading it"
+                            lore += "tell people about it"
                         case 4:
                             lore += "it is the only thing they want to talk about"
                         case 5:
@@ -690,7 +733,7 @@ def generate_lore_2(lore_cat: int) -> str:
                             lore += "think it might only be partially true"
 
     return lore
-def variable_maker(specifications: list) -> tuple[str, str, str, str, int, str, str, str, str, str, str]:
+def variable_maker(specifications: list) -> tuple[str, str, str, str, int, str, str, str, str, str, str, str, str, list[str, str]]:
     specifications = (specifications + [""] * 9)[:9]
     gender = generate_gender(specifications[2].strip())
     race: str = generate_race(specifications[1].strip())
@@ -702,6 +745,14 @@ def variable_maker(specifications: list) -> tuple[str, str, str, str, int, str, 
     profession: str = generate_profession(specifications[7].strip(), specifications[4].strip(), specifications[8].strip())
     stats, stats_clean = generate_stats()
     speech_quirk: str = generate_speech_quirk()
-    lore1, lore1_cat = generate_lore()
-    lore2: str= generate_lore_2(lore1_cat)
-    return gender, race, sub_race, name, age, profession, stats, stats_clean, speech_quirk, lore1, lore2
+    lore1, lore1_cat, personality1 = generate_lore()
+    lore2: str = generate_lore_2(lore1_cat)
+    while True:
+        lore3, lore3_cat, personality2 = generate_lore()
+        if lore3_cat == lore1_cat:
+            continue
+        break
+    lore4: str = generate_lore_2(lore3_cat)
+    pool = list(set(personality1 + personality2))
+    personality = random.sample(pool, 2)
+    return gender, race, sub_race, name, age, profession, stats, stats_clean, speech_quirk, lore1, lore2, lore3, lore4, personality

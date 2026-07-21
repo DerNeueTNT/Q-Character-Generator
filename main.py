@@ -100,19 +100,20 @@ def main():
         padding = [""] * 32
         specifications += padding
         
-        gender, race, sub_race, name, age, profession, stats, stats_clean, speech_quirk, lore1, lore2 = variable_maker(specifications)
-            
+        gender, race, sub_race, name, age, profession, stats, stats_clean, speech_quirk, lore1, lore2, lore3, lore4, personality = variable_maker(specifications)
         #Store the NPC in the log file
         if do_log == True:
             with open("log.txt", "a") as file:
                 file.write(f"""
-                Name: {name} ({gender})
-                Age: {age}
-                Race: {race} {sub_race}
-                Profession: {profession}
-                Stats: {stats_clean}
-                Speech Quirk: {speech_quirk}
-                Lore: {lore1} {lore2}
+Name: {name} ({gender})
+Age: {age}
+Race: {race} {sub_race}
+Profession: {profession}
+Stats: {stats_clean}
+Speech Quirk: {speech_quirk}
+Lore: {lore1} {lore2}
+Secondary Lore: {lore3} {lore4}
+Personality: {personality[0]}, {personality[1]}
                 """)
         
         print("\033[8;37mNPC STAT BLOCK:\033[0m")
@@ -130,6 +131,11 @@ def main():
         print(f"\033[0;32mSpeech Quirk:\033[0m {speech_quirk}")
         time.sleep(0.1)
         print(f"\033[0;36mLore:\033[0m {lore1} {lore2}")
+        time.sleep(0.1)
+        print(f"\033[0;34mSecondary Lore:\033[0m {lore3} {lore4}")
+        time.sleep(0.1)
+        print(f"\033[0;35mPersonality:\033[0m {personality[0]}, {personality[1]}")
+
 
 if __name__ == "__main__":
     main()
