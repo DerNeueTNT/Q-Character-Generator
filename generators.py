@@ -161,7 +161,7 @@ def generate_profession(job: str = "", child: str = "", a_job: str = "") -> str:
     return job
 
 
-def generate_stats() -> tuple[str, str]:
+def generate_stats(personality: str) -> tuple[str, str]:
     """
     Generate ability scores based on D&D.
     """
@@ -180,6 +180,34 @@ def generate_stats() -> tuple[str, str]:
     intelligence: int = stat_generator()
     wisdom: int = stat_generator()
     charisma: int = stat_generator()
+
+    for trait in personality:
+        match trait:
+            case "stressed":
+                constitution -= 1
+            case "depressed":
+                charisma -= 2
+            case "arrogant":
+                charisma -= 4
+            case "intelligent":
+                intelligence += 4
+            case "cunning":
+                intelligence += 2
+            case "honest":
+                charisma += 1
+            case "deceitful":
+                charisma += 2
+            case "analytical":
+                intelligence += 1
+            case "dumb":
+                intelligence -= 3
+            case "annoying":
+                charisma -= 4
+            case "violent":
+                strength += 2
+            case "shy":
+                charisma -= 1
+        
 
     return f"\033[1;37mStr\033[0m [{strength}], \033[1;37mDex\033[0m [{dexterity}], \033[1;37mCon\033[0m [{constitution}], \033[1;37mInt\033[0m [{intelligence}], \033[1;37mWis\033[0m [{wisdom}], \033[1;37mCha\033[0m [{charisma}]", f"Str [{strength}], Dex [{dexterity}], Con [{constitution}], Int [{intelligence}], Wis [{wisdom}], Cha [{charisma}]"
 
@@ -743,8 +771,6 @@ def variable_maker(specifications: list) -> tuple[str, str, str, str, int, str, 
     name: str = generate_name(specifications[0].strip(), race, gender)
     age: str = generate_age(race, specifications[3].strip(), specifications[4].strip(), specifications[5].strip(), specifications[6].strip())
     profession: str = generate_profession(specifications[7].strip(), specifications[4].strip(), specifications[8].strip())
-    stats, stats_clean = generate_stats()
-    speech_quirk: str = generate_speech_quirk()
     lore1, lore1_cat, personality1 = generate_lore()
     lore2: str = generate_lore_2(lore1_cat)
     while True:
@@ -757,4 +783,6 @@ def variable_maker(specifications: list) -> tuple[str, str, str, str, int, str, 
     extra_traits = random.sample(GENERIC_PERSONALITIES, 3)
     pool = list(set(lore_tags + extra_traits))
     personality = random.sample(pool, 2)
+    stats, stats_clean = generate_stats(personality)
+    speech_quirk: str = generate_speech_quirk()
     return gender, race, sub_race, name, age, profession, stats, stats_clean, speech_quirk, lore1, lore2, lore3, lore4, personality

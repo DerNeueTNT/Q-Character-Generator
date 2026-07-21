@@ -201,7 +201,7 @@ RACE_DATA: dict = {
             "last": GENERIC_LAST,
         },
         "ages":{
-            "max": 10000,
+            "max": 250,
             "child": 30,
             "min": 18,
         },
