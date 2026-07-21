@@ -402,7 +402,7 @@ def generate_lore() -> tuple[str, int, list[str]]:
                     lore += "difficulty breathing"
         case 11:
             lore += "they dislike "
-            personality_cat = ["lonely", "arrogant", "pychopathic"]
+            personality_cat = ["lonely", "arrogant", "psychopathic"]
             match secondary_option:
                 case 1:
                     lore += f"a {random.choice(["local blacksmith", "PC", "local trader", "local ruler", "parent of theirs"])} due to {random.choice(["a minor disagreement", "a confilct of interest", "a conflict of believes", "something minor", "a tragedy"])}"
