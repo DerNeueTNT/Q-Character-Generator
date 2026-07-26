@@ -4,5 +4,5 @@ dist/
 __pycache__/
 log.txt
 log_prev.txt
-dev_log.md
+dev_log.log
 linux_compile.sh
