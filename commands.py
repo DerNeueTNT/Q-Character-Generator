@@ -8,7 +8,7 @@ def commands(user_input: str, argument: str):
     Works but needs improvement.
     Please only add new commands if you deem they are necessary.
     """
-    match user_input.Lower():
+    match user_input.lower():
         case "!help":
             print("""
         \033[1;39mInput structure:\033[0m [Name], [Race], [Gender], [Age], [IsChild Y/N], [MaxAge], [MatureAge], [Job], [AdultJob Y/N]

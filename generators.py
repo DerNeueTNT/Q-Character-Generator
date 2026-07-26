@@ -161,55 +161,87 @@ def generate_profession(job: str = "", child: str = "", a_job: str = "") -> str:
     return job
 
 
-def generate_stats(personality: str) -> tuple[str, str]:
-    """
-    Generate ability scores based on D&D.
-    """
-    
+def generate_stats(personality: list, profession: str) -> tuple[str, str]:
     def stat_generator() -> int:
-        stat_list: list = []
-        for i in range(4):
-            stat_list.append(random.randint(1, 6))
-            
+        stat_list = [random.randint(1, 6) for _ in range(4)]
         stat_list.sort()
         return sum(stat_list[1:])
-    
-    strength: int = stat_generator()
-    dexterity: int = stat_generator()
-    constitution: int = stat_generator()
-    intelligence: int = stat_generator()
-    wisdom: int = stat_generator()
-    charisma: int = stat_generator()
 
+    # Base stats
+    stats = {
+        "str": stat_generator(),
+        "dex": stat_generator(),
+        "con": stat_generator(),
+        "int": stat_generator(),
+        "wis": stat_generator(),
+        "cha": stat_generator(),
+    }
+
+    # Personality Modifiers
+    pers_mods = {
+        "stressed": {"con": -1},
+        "depressed": {"cha": -2},
+        "arrogant": {"cha": -4},
+        "intelligent": {"int": 4},
+        "cunning": {"int": 2},
+        "honest": {"cha": 1},
+        "deceitful": {"cha": 2},
+        "analytical": {"int": 1},
+        "dumb": {"int": -3},
+        "annoying": {"cha": -4},
+        "violent": {"str": 2},
+        "shy": {"cha": -1}
+    }
+
+    # Profession Modifiers
+    prof_mods = {
+        "farmer": {"str": 2, "con": 1, "dex": 1, "wis": -1},
+        "blacksmith": {"str": 2, "con": 1, "dex": 1, "wis": -1, "cha": -1},
+        "cleric": {"wis": 1, "cha": 2},
+        "paladin": {"con": 2, "str": 2, "dex": -1, "int": -1},
+        "knight": {"con": 2, "str": 1, "dex": -1},
+        "guard": {"con": 1, "str": 1},
+        "merchant": {"cha": 3, "wis": 1, "con": -1, "str": -1},
+        "wandering trader": {"cha": 2, "wis": 1, "str": -1},
+        "magician": {"wis": 2, "int": 1, "dex": 1, "con": -1},
+        "wizard": {"wis": 5, "int": 5, "str": -3, "dex": -2, "con": -2},
+        "lumberjack": {"str": 2, "con": 1},
+        "tailor": {"dex": 2, "int": 1},
+        "stonemason": {"str": 2, "con": 1},
+        "fisherman": {"str": 1, "dex": 1, "con": 1},
+        "tax collector": {"cha": -2, "int": 1},
+        "armourer": {"str": 1, "con": 1},
+        "cook": {"con": 1, "dex": 1},
+        "servant": {"dex": 1, "cha": -1},
+        "dyer": {"int": 1, "con": 1},
+        "goldsmith": {"dex": 2, "int": 1},
+        "librarian": {"int": 3, "wis": 1, "str": -2},
+        "messenger": {"dex": 2, "con": 1},
+        "miller": {"str": 1, "con": 1},
+        "apprentice": {"int": 1},
+        "student": {"int": 2, "str": -1}
+    }
+
+    # Apply Personality
     for trait in personality:
-        match trait:
-            case "stressed":
-                constitution -= 1
-            case "depressed":
-                charisma -= 2
-            case "arrogant":
-                charisma -= 4
-            case "intelligent":
-                intelligence += 4
-            case "cunning":
-                intelligence += 2
-            case "honest":
-                charisma += 1
-            case "deceitful":
-                charisma += 2
-            case "analytical":
-                intelligence += 1
-            case "dumb":
-                intelligence -= 3
-            case "annoying":
-                charisma -= 4
-            case "violent":
-                strength += 2
-            case "shy":
-                charisma -= 1
-        
+        mods = pers_mods.get(trait.lower(), {})
+        for stat, val in mods.items():
+            stats[stat] += val
 
-    return f"\033[1;37mStr\033[0m [{strength}], \033[1;37mDex\033[0m [{dexterity}], \033[1;37mCon\033[0m [{constitution}], \033[1;37mInt\033[0m [{intelligence}], \033[1;37mWis\033[0m [{wisdom}], \033[1;37mCha\033[0m [{charisma}]", f"Str [{strength}], Dex [{dexterity}], Con [{constitution}], Int [{intelligence}], Wis [{wisdom}], Cha [{charisma}]"
+    # Apply Profession
+    mods = prof_mods.get(profession.lower(), {})
+    for stat, val in mods.items():
+        stats[stat] += val
+
+    # Floor at 1
+    for key in stats:
+        stats[key] = max(1, stats[key])
+
+    s = stats # shorthand for the return string
+    display = f"\033[1;37mStr\033[0m [{s['str']}], \033[1;37mDex\033[0m [{s['dex']}], \033[1;37mCon\033[0m [{s['con']}], \033[1;37mInt\033[0m [{s['int']}], \033[1;37mWis\033[0m [{s['wis']}], \033[1;37mCha\033[0m [{s['cha']}]"
+    plain = f"Str [{s['str']}], Dex [{s['dex']}], Con [{s['con']}], Int [{s['int']}], Wis [{s['wis']}], Cha [{s['cha']}]"
+    
+    return display, plain
 
 def generate_speech_quirk() -> str:
     """
@@ -217,22 +249,21 @@ def generate_speech_quirk() -> str:
     """
 def generate_speech_quirk() -> str:
     quirks: list = [
-        "with a big mouth", "as if they had something in their throat", 
-        "as if they were hiding something", "very fast", "slowly", 
-        "everything as if it was a question", "only in rhymes", 
-        "with a germanic accent", "with an italian accent", 
-        "with a british accent", "with a french accent", 
-        "without pausing between words", "every word as written", 
-        "hesitantly", "with a stutter", "with a small mouth", 
-        "with their mouth closed", "breathily", "just generally strangely", 
-        "like a snake", "as if they just finished a marathon", 
-        "angrily", "like a detective noir", "in third person", "overly dramatic"
+        "with a germanic accent", "with a british accent", "with a french accent", "with an italian accent",
+        "in a nervous manner", "in a serious manner", "quickly", "slowly", "with stutter", "with confidence",
+        "like a snake", "in whispers", "in a loud voice", "in a quiet voice", "monotone", "in a bored tone"
     ]
 
+
     forbidden_groups = [
-        {"very fast", "slowly", "without pausing between words", "with a stutter"},
-        {"with a big mouth", "with a small mouth", "with their mouth closed"},
-        {"with a germanic accent", "with an italian accent", "with a british accent", "with a french accent"}
+        {"with a germanic accent", "with a british accent", "with a french accent", "with an italian accent", "monotone"},
+        {"in a nervous manner", "in a serious manner"},
+        {"quickly", "slowly"},
+        {"in a nervous manner", "with confidence"},
+        {"with a stutter", "with confidence"},
+        {"in whispers", "in a loud voice", "in a quiet voice"},
+        {"with a stutter", "in a bored tone", "monotone"},
+        {"in a nervous manner", "in a bored tone"},
     ]
 
     while True:
@@ -783,6 +814,6 @@ def variable_maker(specifications: list) -> tuple[str, str, str, str, int, str, 
     extra_traits = random.sample(GENERIC_PERSONALITIES, 3)
     pool = list(set(lore_tags + extra_traits))
     personality = random.sample(pool, 2)
-    stats, stats_clean = generate_stats(personality)
+    stats, stats_clean = generate_stats(personality, profession)
     speech_quirk: str = generate_speech_quirk()
     return gender, race, sub_race, name, age, profession, stats, stats_clean, speech_quirk, lore1, lore2, lore3, lore4, personality

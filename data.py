@@ -57,7 +57,7 @@ RACE_DATA: dict = {
         "names": {
             "male": ["Unome", "Trome", "Gerome", "Grome", "Stome", "Wome", "Fenome", "Zome"],
             "female": ["Unome", "Trome", "Gerome", "Grome", "Stome", "Wome", "Fenome", "Zome"],
-            "middle": GENERIC_MIDDLE, #gnomes don't have unique middle names
+            "middle": GENERIC_MIDDLE,
             "last": ["Shroomhide", "Leafsteal", "Stealthstorm", "Treeclimb", "Minish"],
         },
         "ages":{
