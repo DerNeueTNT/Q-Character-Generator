@@ -8,12 +8,15 @@ import os
 from datetime import datetime
 from generators import variable_maker
 from commands import commands
+from colorama import init, Fore, Style
 
 def main():
     """
     This is where the magic happens! main() reads the user input, checks if it is a command (and runs the command if it is), 
     generates an NPC based on the user input, saves the NPC to the log.txt file and prints it out.
     """
+    init(autoreset=True)
+
     try:
         timestamp: str = datetime.now().strftime("%d.%m.%Y %H:%M")
     except Exception:
