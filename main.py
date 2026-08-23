@@ -3,6 +3,10 @@
 # even if you are very confident in your skills, we all make mistakes
 # use !clear_dev to clear the dev_log.md file
 
+# TODO:
+# - add settings
+# - make reputation generation seperate from lore
+
 import time
 import os
 from datetime import datetime
@@ -103,7 +107,7 @@ def main():
         padding = [""] * 32
         specifications += padding
         
-        gender, race, sub_race, name, age, profession, stats, stats_clean, speech_quirk, lore1, lore2, lore3, lore4, personality = variable_maker(specifications)
+        gender, race, sub_race, name, age, profession, stats, stats_clean, speech_quirk, lore1, lore2, rep, personality = variable_maker(specifications)
         #Store the NPC in the log file
         if do_log == True:
             with open("log.txt", "a") as file:
@@ -114,8 +118,8 @@ Race: {race} {sub_race}
 Profession: {profession}
 Stats: {stats_clean}
 Speech Quirk: {speech_quirk}
-Reputation: {lore1} {lore2}
-Lore: {lore3} {lore4}
+Reputation: {rep}
+Lore: {lore1} {lore2}
 Personality: {personality[0]}, {personality[1]}
                 """)
         
@@ -133,9 +137,9 @@ Personality: {personality[0]}, {personality[1]}
         time.sleep(0.1)
         print(f"\033[0;32mSpeech Quirk:\033[0m {speech_quirk}")
         time.sleep(0.1)
-        print(f"\033[0;36mReputation:\033[0m {lore1} {lore2}")
+        print(f"\033[0;36mReputation:\033[0m {rep}")
         time.sleep(0.1)
-        print(f"\033[0;34mLore:\033[0m {lore3} {lore4}")
+        print(f"\033[0;34mLore:\033[0m {lore1} {lore2}")
         time.sleep(0.1)
         print(f"\033[0;35mPersonality:\033[0m {personality[0]}, {personality[1]}")
 
