@@ -11,7 +11,8 @@ I am an independent developer. When running the .exe on Windows, a 'SmartScreen'
 - Quickly generate NPCs with
   - A randomly generated Name, Gender, Race and Profession
   - A set of randomly generated Ability scores (based on Dungeons and Dragons)
-  - A Unique speech quirk and deep lore to make them memorable
+  - A unique speech quirk
+  - simple but effective lore and reputation
 
 - A good looking retro-style user interface
 
