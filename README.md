@@ -36,8 +36,9 @@ I am an independent developer. When running the .exe on Windows, a 'SmartScreen'
 If you wish to modify the source code:
 - Required: `python 3.10+`
 - Run via: `python main.py`
-- Run `!test 10000` while running the script before submitting a pull request to ensure your code functions as intended
+- Run `!dev test 10000` while running the script before submitting a pull request to ensure your code functions as intended
   - This command will output into the console and provide more detail on errors in the `dev_log.log` file
+- Run `!dev help` for a list of dev commands
 - Do not leave hateful comments in the code
 - This code was written by me after 2 weeks of learning python, when I started this project I didn't even know about OOP, 
   so please excuse and misusage of terminology and strange code implementations

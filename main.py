@@ -5,14 +5,17 @@
 
 # TODO:
 # - add settings
-# - make reputation generation seperate from lore
 
 import time
-import os
 from datetime import datetime
 from generators import variable_maker
 from commands import commands
-from colorama import init, Fore, Style
+from colorama import init
+from base import Initial, Dev_Write
+import traceback
+import sys
+
+do_log, dev_log = Initial()
 
 def main():
     """
@@ -21,53 +24,7 @@ def main():
     """
     init(autoreset=True)
 
-    try:
-        timestamp: str = datetime.now().strftime("%d.%m.%Y %H:%M")
-    except Exception:
-        timestamp: str = "???"
-
-    #Check if the files 'log.txt', 'log_prev.txt' and "dev_log.md" can be accessed
-    do_log: bool = True
-    dev_log: bool = True
-    try:
-        with open("log.txt", "a") as f:
-            pass
-        with open("log_prev.txt", "a") as f:
-            pass
-    except (PermissionError, IOError):
-        do_log = False
-
-    try:
-        with open("dev_log.log", "a") as f:
-            pass
-    except (PermissionError, IOError):
-        dev_log = False
-
-    #Make sure that the files can actually be written to
-    if os.access("log.txt", os.W_OK):
-        pass
-    else:
-        do_log = False
-    if os.access("log_prev.txt", os.W_OK):
-        pass
-    else:
-        do_log = False
-    if os.access("dev_log.log", os.W_OK):
-        pass
-    else:
-        dev_log = False
-
-
-    #Overrides 'log_prev.txt' with the contents of 'log.txt' and clears 'log.txt' for usage
-    if do_log == True:
-        if os.path.exists("log.txt"):
-            with open("log.txt", "r") as old_file:
-                content: str = old_file.read()
-            with open("log_prev.txt", "w") as file:
-                file.write(content)
-        with open("log.txt", "w") as file:
-            file.write(f"this log was generated at {timestamp}\n\n")
-    
+    Dev_Write(f"\n\n <[Session: {datetime.now()}]> \n")
 
     print("""if any values does not have a valid input, it will use default values
     Input structure: [Name], [Race], [Gender], [Age], [IsChild Y/N], [MaxAge], [MatureAge], [Job], [AdultJob Y/N]
@@ -97,30 +54,37 @@ def main():
             parts = user_input.split(" ")
             part_pad = [""] * 4
             parts += part_pad
-            com = parts[0]
-            arg = parts[1]
-            commands(com, arg) 
+            commands(parts[0], parts[1], parts[2]) 
             continue
 
         specifications = user_input.split(",")
         
         padding = [""] * 32
         specifications += padding
+
+        Dev_Write("--<| GENERATING VARIABLES |>--")
         
-        gender, race, sub_race, name, age, profession, stats, stats_clean, speech_quirk, lore1, lore2, rep, personality = variable_maker(specifications)
+        try:
+            gender, race, sub_race, name, age, profession, stats, stats_clean, speech_quirk, lore1, lore2, rep, personality = variable_maker(specifications)
+            Dev_Write("generated successfully")
+        except Exception as e:
+            Dev_Write("Failed to generate:" + traceback.format_exc() + "")
+            print("ERROR DURING GENERATION: " + f"{e}")
+            sys.exit()
+
         #Store the NPC in the log file
         if do_log == True:
             with open("log.txt", "a") as file:
                 file.write(f"""
-Name: {name} ({gender})
-Age: {age}
-Race: {race} {sub_race}
-Profession: {profession}
-Stats: {stats_clean}
-Speech Quirk: {speech_quirk}
-Reputation: {rep}
-Lore: {lore1} {lore2}
-Personality: {personality[0]}, {personality[1]}
+        Name: {name} ({gender})
+        Age: {age}
+        Race: {race} {sub_race}
+        Profession: {profession}
+        Stats: {stats_clean}
+        Speech Quirk: {speech_quirk}
+        Reputation: {rep}
+        Lore: {lore1} {lore2}
+        Personality: {personality[0]}, {personality[1]}
                 """)
         
         print("\033[8;37mNPC STAT BLOCK:\033[0m")
@@ -145,4 +109,4 @@ Personality: {personality[0]}, {personality[1]}
 
 
 if __name__ == "__main__":
-    main()
+        main()

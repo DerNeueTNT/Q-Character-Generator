@@ -5,5 +5,5 @@ __pycache__/
 log.txt
 log_prev.txt
 dev_log.log
-linux_compile.sh
+*.sh
 generator.ico

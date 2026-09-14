@@ -2,13 +2,30 @@ import os
 import sys
 from datetime import datetime
 from generators import variable_maker
+from base import Initial, Dev_Write, Veto_Dev_Logging
 
-def commands(user_input: str, argument: str):
+is_test = False
+
+do_log, dev_log = Initial()
+
+def commands(input: str, arg: str, sec_arg: str):
     """
     Works but needs improvement.
     Please only add new commands if you deem they are necessary.
     """
-    match user_input.lower():
+    input = input.lower()
+    arg = arg.lower()
+    sec_arg = sec_arg.lower()
+    if arg == "" and sec_arg != "":
+        arg = sec_arg
+    if input != "!dev":
+        if arg == "":
+            Dev_Write(f"running command '{input}' with no arguments")
+        elif arg != "" and sec_arg == "":
+            Dev_Write(f"running command '{input}' with argument '{arg}'")
+        else:
+            Dev_Write(f"running command '{input}' with argument '{arg}' and secondary argument '{sec_arg}'")
+    match input:
         case "!help":
             print("""
         \033[1;39mInput structure:\033[0m [Name], [Race], [Gender], [Age], [IsChild Y/N], [MaxAge], [MatureAge], [Job], [AdultJob Y/N]
@@ -72,57 +89,85 @@ def commands(user_input: str, argument: str):
                     \033[2;39m- Forces the generator to pick a profession from the Adult profession Table\033[0m
                     \033[2;39m  even if 'IsChild' is set to 'Yes'\033[0m
                 """)
-        case "!test":
-            def tester(TestNum: int, specifications: list):
-                with open("dev_log.log", "a") as dev_file:
-                    try:
-                        variable_maker(specifications)
-                        print(f"\033[0;92mTEST {TestNum} SUCCESS\033[0m")
-                        dev_file.write(f"TEST {TestNum} SUCCESS\n")
-                    except Exception as e:
-                        dev_file.write(f"TEST {TestNum} FAILED - {str(e)}\n")
-                        print(f"\033[0;91mTEST {TestNum} FAILED\033[0m")
-            try:
-                loops: int = int(argument)
-            except:
-                loops: int = 1000
-            specifications: list = []
-            padding = [""] * 32
-            specifications += padding
-            counter: int = 1
-    
-            with open("dev_log.log", "a") as dev_file:
-                dev_file.write(f"--- Test Session: {datetime.now()} ---\n")
-                while counter <= loops:
-                    try:
-                        variable_maker(specifications)
-                        dev_file.write(f"Loop {counter}. SUCCESS\n")
-                        print(f"\033[0;92mLOOP SUCCESS {counter}\033[0m")
-                    except Exception as e:
-                        dev_file.write(f"Loop {counter}: FAILED - {str(e)}\n")
-                        print(f"\033[0;91mLOOP FAILED {counter}\033[0m")
-                    
-                    counter += 1
-    
-            tester(1, ["Name", "Race", "Gender", "Age", "N", "MaxAge", "MatureAge", "Job", ""])
-            tester(2, ["1200494", "W.D. Gaster", "Pain", "Age", "D20", "-100", "10", "Dungeon Master", "Nothing to see here"])
-            tester(3, ["", "", "", "", "", "", "", "", ""])
-            tester(4, ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"])
-            tester(5, ["☺", "☻", "♥", "♦", "♣", "♠", "•", "◘", "○"])
-            tester(6, ["\n", "\n", "\n", "\n", "\n", "\n", "\n", "\n", "\n"])
-            tester(7, ["A" * 1000])
-            tester(8, [",,,,,,,,"])
-            tester(9, ["Name", "Race", "Gender", "9999999999999999999999999999999999999999999999999999999", "N", "9999999999999999999999999999999999999999999999999999999", "9999999999999999999999999999999999999999999999999999999", "Job", ""])
-            tester(10, ["\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m"])
-            tester(11, ["", "", "", "", "", "100", "10", "", ""])
-            tester(12, ["", "", "", "", "y", "100", "10", "", ""])
-            
-            print("\033[1;97mYOUR CODE WORKS\033[0m")
         case "!quit":
+            Dev_Write("quitting")
             sys.exit()
-        case "!clear_dev":
-            with open("dev_log.log", "w") as file:
-                file.write("")
+        case "!dev":
+            match arg:
+                case "clear":
+                    with open("dev_log.log", "w") as file:
+                        file.write("")
+                case "help":
+                    print(""" \033[0;93mfor readibility, dev commands will not be logged\033[0m
+        !dev clear - clears the 'dev_log.log' file \033[0;31m(this cannot be undone)\033[0m
+        !dev help - prints list of dev commands
+        !dev test [NUM] - generates [NUM] amount of NPCs without printing them, then runs 12 predefined tests.
+                          if 10000 NPCs can be generated and all 12 tests pass without raising an Exception, then
+                          your code is safe to submit for a pull request. (if [NUM] is not defined, it defaults to 10000)
+        !dev note [STRING] - writes [STRING] to a new line in the 'dev_log.log' file (you cannot use spaces inside your comment)
+                """)
+                case "test":
+                    issue_free = True
+                    def tester(TestNum: int, specifications: list):
+                        with open("dev_log.log", "a") as dev_file:
+                            try:
+                                Veto_Dev_Logging(True)
+                                variable_maker(specifications)
+                                Veto_Dev_Logging(False)
+                                print(f"\033[0;92mTEST {TestNum} SUCCESS\033[0m")
+                                if dev_log:
+                                    dev_file.write(f"TEST {TestNum} SUCCESS\n")
+                            except Exception as e:
+                                issue_free = False
+                                if dev_log:
+                                    dev_file.write(f"TEST {TestNum} FAILED - {str(e)}\n")
+                                print(f"\033[0;91mTEST {TestNum} FAILED\033[0m")
+                    try:
+                        loops: int = int(sec_arg)
+                    except:
+                        loops: int = 1000
+                    specifications: list = []
+                    padding = [""] * 32
+                    specifications += padding
+                    counter: int = 1
+            
+                    while counter <= loops:
+                        try:
+                            Veto_Dev_Logging(True)
+                            variable_maker(specifications)
+                            Veto_Dev_Logging(False)
+                            Dev_Write(f"Loop {counter}. SUCCESS\n")
+                            print(f"\033[0;92mLOOP SUCCESS {counter}\033[0m")
+                        except Exception as e:
+                            issue_free = False
+                            Dev_Write(f"Loop {counter}: FAILED - {str(e)}\n")
+                            print(f"\033[0;91mLOOP FAILED {counter}\033[0m")
+                        
+                        counter += 1
+
+
+                    tester(1, ["Name", "Race", "Gender", "Age", "N", "MaxAge", "MatureAge", "Job", ""])
+                    tester(2, ["1200494", "W.D. Gaster", "Pain", "Age", "D20", "-100", "10", "Dungeon Master", "Nothing to see here"])
+                    tester(3, ["", "", "", "", "", "", "", "", ""])
+                    tester(4, ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"])
+                    tester(5, ["☺", "☻", "♥", "♦", "♣", "♠", "•", "◘", "○"])
+                    tester(6, ["\n", "\n", "\n", "\n", "\n", "\n", "\n", "\n", "\n"])
+                    tester(7, ["A" * 1000])
+                    tester(8, [",,,,,,,,"])
+                    tester(9, ["Name", "Race", "Gender", "9999999999999999999999999999999999999999999999999999999", "N", "9999999999999999999999999999999999999999999999999999999", "9999999999999999999999999999999999999999999999999999999", "Job", ""])
+                    tester(10, ["\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m", "\033[1;91m"])
+                    tester(11, ["", "", "", "", "", "100", "10", "", ""])
+                    tester(12, ["", "", "", "", "y", "100", "10", "", ""])
+                    if issue_free:
+                        print("\033[1;97mYOUR CODE WORKS\033[0m")
+                    else:
+                        print("\033[1;97mYOUR CODE DOESNT WORK\033[0m")
+                case "note":
+                    Dev_Write(sec_arg)
+                case _:
+                    print("invalid argument")
+        case _:
+            Dev_Write("command is invalid")
         
                 
         

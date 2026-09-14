@@ -2,25 +2,45 @@ import random
 from datetime import datetime
 from data import SUPPORTED_RACES, RACE_DATA, GENERIC_PERSONALITIES
 from rep_lore_gen import *
+from base import Initial, Dev_Write
+
+do_log, dev_log = Initial()
 
 def generate_gender(gender: str = "") -> str:
     """
     Generates a gender. "Non-Binary" has a lower chance to generate than "Male" and "Female".
     """
+    Dev_Write("-- GENERATING GENDER --")
+
     if gender.lower() not in ["male", "female", "non-binary", "nonbinary"]:
+        if gender != "":
+            Dev_Write(f"entered gender '{gender}' is not valid")
+        else:
+            Dev_Write("no gender entered.")
+        Dev_Write("generating gender.")
+            
         weights: list = [3, 3, 1]
         gender = random.choices(["Male", "Female", "Non-Binary"], weights=weights, k=1)[0]
-    
+
+        Dev_Write(f"generated gender: {gender}")
+    else:
+        Dev_Write(f"entered gender '{gender}' is vaild, skipping")
+
     return gender
 
 def generate_race(race: str= "") -> str:
     """
     Generates a race. Some races have lower chances to generate than others, humans have the highest chance to generate.
     """
+    Dev_Write("-- GENERATING RACE --")
+
     if race == "":
+        Dev_Write("no race was entered, generating")
         weights: list = [10, 8, 8, 8, 2, 8, 8, 8, 2, 8, 7, 7, 5, 1]
         race = random.choices(["Human", "Halfling", "Elf", "Dwarf", "Gnome", "Giant", "Goliath", "Orc", "Dragonborn", "Half-Elf", "Half-Orc", "Tiefling", "Kobold", "Warforged"], weights=weights, k=1)[0]
+        Dev_Write(f"generated race: {race}")
     else:
+        Dev_Write("race was entered, skipping")
         pass
 
     return race
@@ -29,6 +49,7 @@ def generate_name(name: str = "", race: str = "", gender: str = "") -> str:
     """
     Generates a name. Names are race specific (with a chance to use a generic name instead).
     """
+    Dev_Write("-- GENERATING NAME --")
     first_name_type: int = random.randint(1, 4)
     has_middle_name: int = random.randint(1, 8)
     middle_name_type: int = random.randint(1, 4)
@@ -37,15 +58,20 @@ def generate_name(name: str = "", race: str = "", gender: str = "") -> str:
     race = race.title()
     
     if name != "":
-        return(name)
+        Dev_Write("name was entered, skipping")
+        return name
     if race in SUPPORTED_RACES:
+        Dev_Write("no name was entered, generating name")
+        Dev_Write("race is supported")
         #First name generator for supported races
         if first_name_type <= 3:
+            Dev_Write("generating race specific first name")
             if gender.lower() in ["male", "female"]:
                 full_name += random.choice(RACE_DATA[race]["names"][gender.lower()])
             else:
                 full_name += random.choice(RACE_DATA[race]["names"]["male"] + RACE_DATA[race]["names"]["female"])
         else:
+            Dev_Write("generating generic first name")
             if gender.lower() in ["male", "female"]:
                 full_name += random.choice(RACE_DATA["Generic"]["names"][gender.lower()])
             else:
@@ -54,28 +80,39 @@ def generate_name(name: str = "", race: str = "", gender: str = "") -> str:
         #Middle name generator for supported races
         if has_middle_name == 8:
             if middle_name_type <= 2 or race.title() == "Dragonborn":
+                Dev_Write("generating race specific middle name")
                 full_name += f" {random.choice(RACE_DATA[race]["names"]["middle"])}"
+                Dev_Write("generating generic middle name")
             else:
                 full_name += f" {random.choice(RACE_DATA["Generic"]["names"]["middle"])}"
+        else:
+            Dev_Write("did not roll 8, skipping middle name")
 
         #Last name generator for supported races
         if last_name_type <= 3:
+            Dev_Write("generating race specific last name")
             full_name += f" {random.choice(RACE_DATA[race]["names"]["last"])}"
         else:
+            Dev_Write("generating generic last name")
             full_name += f" {random.choice(RACE_DATA["Generic"]["names"]["last"])}"
     else:
+        Dev_Write(f"race {race} is unsupported or uses generic names, generating generic name")
         #First name generator for unsupported races
+        Dev_Write("generating generic first name")
         if gender.lower() in ["male", "female"]:
             full_name += random.choice(RACE_DATA["Generic"]["names"][gender.lower()])
         else:
             full_name += random.choice(RACE_DATA["Generic"]["names"]["male"] + RACE_DATA["Generic"]["names"]["female"])
 
         #Middle name generator for unsupported races
+        Dev_Write("generating generic middle name")
         if has_middle_name == 8:
             full_name += f" {random.choice(RACE_DATA["Generic"]["names"]["middle"])}"
         #Last name generator for unsupported races
+        Dev_Write("generating generic last name")
         full_name += f" {random.choice(RACE_DATA["Generic"]["names"]["last"])}"
-    
+
+        Dev_Write("generated name: " + full_name)
     return full_name
 
 
@@ -83,86 +120,119 @@ def generate_age(race: str = "", age: str = None, child: str = "", m_age: str = 
     """
     Generates an age. Age ranges are based on race and if the NPC is a child.
     """
-    min_age: int = None
+    Dev_Write("-- GENERATING AGE --")
+    min_age: int = 1
 
-    #Convert user input (str) into bool variables
-    try:
-        max_age: int = int(m_age)
-    except Exception:
-        max_age = None
-    try:
-        child_age: int = int(c_age)
-    except Exception:
-        child_age = None
+    #Check if a valid age was entered
     try:
         current_age: int = int(age)
+        Dev_Write("valid current_age was entered, skipping")
+        return current_age
     except Exception:
         current_age = None
-        
+        Dev_Write("no current_age entered or is invalid")
+    
+    #Convert user input (str) into bool variables
+    Dev_Write("attempting to convert input to variables")
+    try:
+        max_age: int = int(m_age)
+        Dev_Write("max_age converted successfully")
+    except Exception:
+        max_age = None
+        Dev_Write("no max_age entered or is invalid, using 'None' instead")
+    try:
+        mature_age: int = int(c_age)
+        Dev_Write("mature_age converted successfully")
+    except Exception:
+        mature_age = None
+        Dev_Write("no mature_age entered or is invalid, using 'None' instead")
+          
     if child.lower() == "y" or child.lower() == "yes":
         is_child: bool = True
+        Dev_Write("is_child is True")
     else:
         is_child = False
+        Dev_Write("is_child is False")
 
     #Make sure that all the variables used in this function are valid values
+    Dev_Write("validating variables")
     if min_age != None:
         if min_age <= 0:
+            Dev_Write("min_age is less than or equal to 0, changing value to 1")
             min_age = 1
-    if child_age != None and min_age != None:
-        if child_age < min_age:
-            child_age = 1
-    if max_age != None and child_age != None:
-        if max_age < child_age:
-            max_age = child_age + 1
-        if child_age != None:
-                min_age: int = child_age - child_age // 4
-
-    if current_age != None:
-        pass
-    elif max_age != None and child_age != None and is_child == False:
-        current_age = random.randint(child_age, max_age)
-    elif max_age != None and child_age != None and is_child == True:
-        current_age = random.randint(min_age, child_age)
+    if mature_age != None and min_age != None and is_child:
+        if mature_age < min_age:
+            Dev_Write("mature_age is less than min_age, changing value to 'min_age + 1'")
+            mature_age = min_age + 1
+    if max_age != None and mature_age != None:
+        if max_age < mature_age:
+            Dev_Write("max_age is less than mature_age, changing value to 'mature_age + 1'")
+            max_age = mature_age + 1
+        
+    if is_child == False and max_age != None and mature_age != None:
+        Dev_Write("is_child is False, max_age and mature_age are not None, generating age between mature_age and max_age")
+        current_age = random.randint(mature_age, max_age)
+    elif is_child == True and mature_age != None and min_age != None:
+        Dev_Write("is_child is True, mature_age and min_age are not None, generating age")
+        current_age = random.randint(min_age, mature_age)
     elif is_child == False and race.title() in SUPPORTED_RACES:
+        Dev_Write("generating age from specficiations of adult " + race)
         current_age = random.randint(RACE_DATA[race.title()]["ages"]["child"], RACE_DATA[race.title()]["ages"]["max"])
     elif is_child == True and race.title() in RACE_DATA["Supported_Races"]:
+        Dev_Write("generating age from specficiations of child " + race)
         current_age = random.randint(RACE_DATA[race.title()]["ages"]["min"], RACE_DATA[race.title()]["ages"]["child"])
     elif is_child == False:
+        Dev_Write("is_child is False and race is not in constant [SUPPORTED RACES], generating generic adult")
         current_age = random.randint(RACE_DATA["Generic"]["ages"]["child"], RACE_DATA["Generic"]["ages"]["max"])
     elif is_child == True:
+        Dev_Write("is_child is True and race is not in constant [SUPPORTED_RACES], generating generic child")
         current_age = random.randint(RACE_DATA["Generic"]["ages"]["min"], RACE_DATA["Generic"]["ages"]["child"])
     else:
-        raise Exception("something broke in the age generator")
-        
+        Dev_Write("undiagnosed issue with age generator")
+        raise Exception("undiagnosed issue with age generator")
+
+    Dev_Write("generated age: " + str(current_age))    
     return current_age
 
 def generate_profession(job: str = "", child: str = "", a_job: str = "") -> str:
     """
     Generate a profession. Generates from a unique table if the NPC is a child.
     """
-    
+    Dev_Write("-- GENERATING PROFESSION --")
+    if job != "":
+        Dev_Write("Profession was entered, skipping")
+        return job
     #Convert the user input (str) into bool variables
+    Dev_Write("attempting to convert input to variables")
     if child.lower() == "y" or child.lower() =="yes":
+        Dev_Write("is_child is True")
         is_child: bool = True
     else:
+        Dev_Write("is_child is False")
         is_child: bool = False
 
     if a_job.lower() == "y" or a_job.lower() =="yes":
+        Dev_Write("adult_job is True")
         adult_job: bool = True
     else:
+        Dev_Write("adult_job is False")
         adult_job: bool = False
 
-    if job == "" and is_child == False or job == "" and adult_job == True:
+    if is_child == False or adult_job == True:
+        Dev_Write("generating adult profession")
         job = random.choice(["Farmer", "Blacksmith", "Cleric", "Paladin", "Knight", "Guard", "Merchant", "Wandering Trader", "Magician", "Wizard", "Lumberjack", "Tailor", "Butcher", "Baker", "Stonemason", "Weaver", "Winemaker", "Fisherman", "Shoemaker/Cobbler", "Wheelwright", "Roofer", "Locksmith", "Tanner", "Tax Collector", "Belt Maker", "Armourer", "Cook", "Servant", "Dyer", "Goldsmith", "Hatmaker", "Tailor", "Scrybe", "Tinsmith", "Carter/Coachman", "Birdcatcher", "Painter", "Tavern Keeper", "Sadler", "Messenger", "Ropemaker", "Miller", "Turner", "Gardener", "Barber", "Librarian", "Jobless"])
     elif job == "" and is_child == True:
+        Dev_Write("generating child profession")
         job = random.choice(["Student", "Apprentice", "Jobless", "Farmhand", "Assistant"])
     else:
         pass
 
+    Dev_Write("generated profession: " + job)
     return job
 
 
 def generate_stats(personality: list, profession: str) -> tuple[str, str]:
+    Dev_Write("-- GENERATING STATS --")
     def stat_generator() -> int:
         stat_list = [random.randint(1, 6) for _ in range(4)]
         stat_list.sort()
@@ -177,6 +247,7 @@ def generate_stats(personality: list, profession: str) -> tuple[str, str]:
         "wis": stat_generator(),
         "cha": stat_generator(),
     }
+    Dev_Write(f"generated base stats: str - {stats["str"]}, dex - {stats["dex"]}, con - {stats["con"]}, int - {stats["int"]}, wis - {stats["wis"]}, cha - {stats["cha"]}")
 
     # Personality Modifiers
     pers_mods = {
@@ -193,7 +264,7 @@ def generate_stats(personality: list, profession: str) -> tuple[str, str]:
         "violent": {"str": 2},
         "shy": {"cha": -1}
     }
-
+    
     # Profession Modifiers
     prof_mods = {
         "farmer": {"str": 2, "con": 1, "dex": 1, "wis": -1},
@@ -228,26 +299,33 @@ def generate_stats(personality: list, profession: str) -> tuple[str, str]:
         mods = pers_mods.get(trait.lower(), {})
         for stat, val in mods.items():
             stats[stat] += val
+    Dev_Write(f"added personality based modifiers: str - {stats["str"]}, dex - {stats["dex"]}, con - {stats["con"]}, int - {stats["int"]}, wis - {stats["wis"]}, cha - {stats["cha"]}")
 
     # Apply Profession
     mods = prof_mods.get(profession.lower(), {})
     for stat, val in mods.items():
         stats[stat] += val
+    Dev_Write(f"added profession based modifiers: str - {stats["str"]}, dex - {stats["dex"]}, con - {stats["con"]}, int - {stats["int"]}, wis - {stats["wis"]}, cha - {stats["cha"]}")
+    
 
     # Floor at 1
     for key in stats:
         stats[key] = max(1, stats[key])
+    Dev_Write(f"floored stats at 1: str - {stats["str"]}, dex - {stats["dex"]}, con - {stats["con"]}, int - {stats["int"]}, wis - {stats["wis"]}, cha - {stats["cha"]}")
+        
 
     s = stats # shorthand for the return string
     display = f"\033[1;37mStr\033[0m [{s['str']}], \033[1;37mDex\033[0m [{s['dex']}], \033[1;37mCon\033[0m [{s['con']}], \033[1;37mInt\033[0m [{s['int']}], \033[1;37mWis\033[0m [{s['wis']}], \033[1;37mCha\033[0m [{s['cha']}]"
     plain = f"Str [{s['str']}], Dex [{s['dex']}], Con [{s['con']}], Int [{s['int']}], Wis [{s['wis']}], Cha [{s['cha']}]"
-    
+
+    Dev_Write("generated stats: " + plain)
     return display, plain
 
 def generate_speech_quirk() -> str:
     """
     Generate a speech quirk to make the NPC more memorable.
     """
+    Dev_Write("-- GENERATING SPEECH QUIRK --")
 def generate_speech_quirk() -> str:
     quirks: list = [
         "with a germanic accent", "with a british accent", "with a french accent", "with an italian accent",
@@ -269,15 +347,18 @@ def generate_speech_quirk() -> str:
 
     while True:
         selection = random.sample(quirks, 2)
+        Dev_Write("selecting Quirks: " + selection[0] + ", " + selection[1])
         is_invalid = False
         
         for group in forbidden_groups:
             overlap = group.intersection(set(selection))
             if len(overlap) > 1:
+                Dev_Write("quirk combo was forbidden, retrying")
                 is_invalid = True
                 break
         
         if not is_invalid:
+            Dev_Write(f"generated speech quirk: 'Speaks {selection[0]} and {selection[1]}'")
             return f"Speaks {selection[0]} and {selection[1]}"
 
 def variable_maker(specifications: list) -> tuple[str, str, str, str, int, str, str, str, str, str, str, str, str, list[str, str]]:
