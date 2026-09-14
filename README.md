@@ -41,4 +41,4 @@ If you wish to modify the source code:
 - Run `!dev help` for a list of dev commands
 - Do not leave hateful comments in the code
 - The original code was written by me after 2 weeks of learning python, when I started this project I didn't even know about OOP,
-  and while I will try to streamline and update the code as I go, please excuse and misusage of terminology and strange code implementations
+  and while I will try to streamline and update the code as I go, please excuse any misusage of terminology and strange code implementations
