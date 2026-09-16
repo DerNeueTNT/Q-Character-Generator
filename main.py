@@ -1,8 +1,3 @@
-# MESSAGE TO OTHER DEVS:
-# please run the command '!test 10000' before submitting a pull request. (note that this command does take a number of loops as an argument, but please run it a minimum of 1000 (default number) times)
-# even if you are very confident in your skills, we all make mistakes
-# use !clear_dev to clear the dev_log.md file
-
 # TODO:
 # - add settings
 
@@ -11,11 +6,11 @@ from datetime import datetime
 from generators import variable_maker
 from commands import commands
 from colorama import init
-from base import Initial, Dev_Write
+from base import do_log, Dev_Write, Read_Setting, Initial
 import traceback
 import sys
 
-do_log, dev_log = Initial()
+Initial()
 
 def main():
     """
@@ -32,8 +27,10 @@ def main():
     NPCs will be saved to the 'log.txt' file in the directory (folder) the program is stored in, allowing you to access NPCs from the last session
     NPCs from the session before that are stored in 'log_prev.txt' as a safety net.
 
-    if this is your first time using this tool or you need a refresher, please type !help
-    to quit, type !quit
+    if this is your first time using this tool or you need a refresher, please type \033[1;39m!help\033[0m
+    to quit, type \033[1;39m!quit\033[0m
+    for a list of other commands, type \033[1;39m!commands
+    \033[0m
         
     Press Enter to start generating!
     """)
@@ -87,25 +84,37 @@ def main():
         Personality: {personality[0]}, {personality[1]}
                 """)
         
-        print("\033[8;37mNPC STAT BLOCK:\033[0m")
-        time.sleep(0.1)
-        print(f"\033[0;32mName:\033[0m {name} ({gender})")
-        time.sleep(0.1)
-        print(f"\033[0;36mAge:\033[0m {age}")
-        time.sleep(0.1)
-        print(f"\033[0;34mRace:\033[0m {race} {sub_race}")
-        time.sleep(0.1)
-        print(f"\033[0;35mProfession:\033[0m {profession}")
-        time.sleep(0.1)
-        print(f"\033[0;31mStats:\033[0m {stats}")
-        time.sleep(0.1)
-        print(f"\033[0;32mSpeech Quirk:\033[0m {speech_quirk}")
-        time.sleep(0.1)
-        print(f"\033[0;36mReputation:\033[0m {rep}")
-        time.sleep(0.1)
-        print(f"\033[0;34mLore:\033[0m {lore1} {lore2}")
-        time.sleep(0.1)
-        print(f"\033[0;35mPersonality:\033[0m {personality[0]}, {personality[1]}")
+        if Read_Setting("instant_mode"):
+            print("\033[8;37mNPC STAT BLOCK:\033[0m")
+            print(f"\033[0;32mName:\033[0m {name} ({gender})")
+            print(f"\033[0;36mAge:\033[0m {age}")
+            print(f"\033[0;34mRace:\033[0m {race} {sub_race}")
+            print(f"\033[0;35mProfession:\033[0m {profession}")
+            print(f"\033[0;31mStats:\033[0m {stats}")
+            print(f"\033[0;32mSpeech Quirk:\033[0m {speech_quirk}")
+            print(f"\033[0;36mReputation:\033[0m {rep}")
+            print(f"\033[0;34mLore:\033[0m {lore1} {lore2}")
+            print(f"\033[0;35mPersonality:\033[0m {personality[0]}, {personality[1]}")
+        else:
+            print("\033[8;37mNPC STAT BLOCK:\033[0m")
+            time.sleep(0.1)
+            print(f"\033[0;32mName:\033[0m {name} ({gender})")
+            time.sleep(0.1)
+            print(f"\033[0;36mAge:\033[0m {age}")
+            time.sleep(0.1)
+            print(f"\033[0;34mRace:\033[0m {race} {sub_race}")
+            time.sleep(0.1)
+            print(f"\033[0;35mProfession:\033[0m {profession}")
+            time.sleep(0.1)
+            print(f"\033[0;31mStats:\033[0m {stats}")
+            time.sleep(0.1)
+            print(f"\033[0;32mSpeech Quirk:\033[0m {speech_quirk}")
+            time.sleep(0.1)
+            print(f"\033[0;36mReputation:\033[0m {rep}")
+            time.sleep(0.1)
+            print(f"\033[0;34mLore:\033[0m {lore1} {lore2}")
+            time.sleep(0.1)
+            print(f"\033[0;35mPersonality:\033[0m {personality[0]}, {personality[1]}")
 
 
 if __name__ == "__main__":

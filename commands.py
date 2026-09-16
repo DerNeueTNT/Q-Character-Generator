@@ -2,11 +2,9 @@ import os
 import sys
 from datetime import datetime
 from generators import variable_maker
-from base import Initial, Dev_Write, Veto_Dev_Logging
+from base import dev_log, Dev_Write, Veto_Dev_Logging, Change_Setting, Read_Setting
 
 is_test = False
-
-do_log, dev_log = Initial()
 
 def commands(input: str, arg: str, sec_arg: str):
     """
@@ -166,6 +164,31 @@ def commands(input: str, arg: str, sec_arg: str):
                     Dev_Write(sec_arg)
                 case _:
                     print("invalid argument")
+        case "!commands":
+            print("""
+        \033[1;39m!help\033[0m - Gives a helpful guide on how to use this program!
+        \033[1;39m!quit\033[0m - Ends the program.
+        \033[1;39m!commands\033[0m - Prints a list of available commands, as you can see.
+        \033[1;39m!settings\033[0m - Prints a list of commands that can be used to adjust settings.
+                """)
+        case "!settings":
+            match arg:
+                case "":
+                    print("""
+            \033[1;39m!settings instant [on/off]\033[0m - Turns instant mode on and off
+                    """)
+                case "instant":
+                    cur_val: bool = Read_Setting("instant_mode")
+                    if cur_val == sec_arg:
+                        print(f"instant mode is already {cur_val}")
+                    elif sec_arg == "on":
+                        Change_Setting("instant_mode", True)
+                    elif sec_arg == "off":
+                        Change_Setting("instant_mode", False)
+                    else:
+                        print(f"cannot change instant mode to {sec_arg}, invalid value")
+                case _:
+                    print(f"'{arg} is not a valid setting, check if you may have made a typo")
         case _:
             Dev_Write("command is invalid")
         

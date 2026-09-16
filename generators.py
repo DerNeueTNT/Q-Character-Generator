@@ -1,10 +1,8 @@
 import random
 from datetime import datetime
-from data import SUPPORTED_RACES, RACE_DATA, GENERIC_PERSONALITIES
+from constants import SUPPORTED_RACES, RACE_DATA, GENERIC_PERSONALITIES
 from rep_lore_gen import *
-from base import Initial, Dev_Write
-
-do_log, dev_log = Initial()
+from base import Dev_Write
 
 def generate_gender(gender: str = "") -> str:
     """
