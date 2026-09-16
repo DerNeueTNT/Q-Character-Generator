@@ -7,3 +7,4 @@ log_prev.txt
 dev_log.log
 *.sh
 generator.ico
+settings.json
