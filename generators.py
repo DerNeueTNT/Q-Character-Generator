@@ -313,7 +313,7 @@ def generate_stats(personality: list, profession: str) -> tuple[str, str]:
         
 
     s = stats # shorthand for the return string
-    display = f"\033[1;37mStr\033[0m [{s['str']}], \033[1;37mDex\033[0m [{s['dex']}], \033[1;37mCon\033[0m [{s['con']}], \033[1;37mInt\033[0m [{s['int']}], \033[1;37mWis\033[0m [{s['wis']}], \033[1;37mCha\033[0m [{s['cha']}]"
+    display = f"\033[1mStr\033[22m [{s['str']}], \033[1mDex\033[22m [{s['dex']}], \033[1mCon\033[22m [{s['con']}], \033[1mInt\033[22m [{s['int']}], \033[1mWis\033[22m [{s['wis']}], \033[1mCha\033[22m [{s['cha']}]"
     plain = f"Str [{s['str']}], Dex [{s['dex']}], Con [{s['con']}], Int [{s['int']}], Wis [{s['wis']}], Cha [{s['cha']}]"
 
     Dev_Write("generated stats: " + plain)

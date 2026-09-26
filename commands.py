@@ -2,7 +2,7 @@ import os
 import sys
 from datetime import datetime
 from generators import variable_maker
-from base import dev_log, Dev_Write, Veto_Dev_Logging, Change_Setting, Read_Setting
+from base import allow_settings, dev_log, Dev_Write, Veto_Dev_Logging, Change_Setting, Read_Setting
 
 is_test = False
 
@@ -172,23 +172,37 @@ def commands(input: str, arg: str, sec_arg: str):
         \033[1;39m!settings\033[0m - Prints a list of commands that can be used to adjust settings.
                 """)
         case "!settings":
-            match arg:
-                case "":
-                    print("""
-            \033[1;39m!settings instant [on/off]\033[0m - Turns instant mode on and off
-                    """)
-                case "instant":
-                    cur_val: bool = Read_Setting("instant_mode")
-                    if cur_val == sec_arg:
-                        print(f"instant mode is already {cur_val}")
-                    elif sec_arg == "on":
-                        Change_Setting("instant_mode", True)
-                    elif sec_arg == "off":
-                        Change_Setting("instant_mode", False)
-                    else:
-                        print(f"cannot change instant mode to {sec_arg}, invalid value")
-                case _:
-                    print(f"'{arg} is not a valid setting, check if you may have made a typo")
+            if allow_settings:
+                match arg:
+                    case "":
+                        print("""
+        \033[1;39m!settings instant [on/off]\033[0m - Turns instant mode on and off
+        \033[1;39m!settings theme [text]\033[0m - Change how the NPC stat blocks look, type '!settings theme' to get more info
+                        """)
+                    case "instant":
+                        cur_val: bool = Read_Setting("instant_mode")
+                        if cur_val == sec_arg:
+                            print(f"instant mode is already {cur_val}")
+                        elif sec_arg == "on":
+                            Change_Setting("instant_mode", True)
+                        elif sec_arg == "off":
+                            Change_Setting("instant_mode", False)
+                        else:
+                            print(f"cannot change instant mode to {sec_arg}, invalid value")
+                    case "theme":
+                        if sec_arg == "":
+                            print("""
+        \033[1;39mAVAILABLE THEMES:\033[0m \033[2;39m(note that any invalid themes will just use the white theme instead)\033[0m
+        \033[0;34mDe\033[0;35mfau\033[0;31mlt\033[0m, \033[0;37mWhite\033[0m, \033[5;32mRetro\033[0m, \033[0;39;44mHighlight\033[0m,
+        \033[0;94mBr\033[0;95mig\033[0;91mht\033[0m, \033[0;34mG\033[0;35mra\033[0;31mdi\033[0;35men\033[0;34mt\033[0m, 
+                                """)
+                        else:
+                            Change_Setting("theme", sec_arg)
+                    case _:
+                        print(f"'{arg} is not a valid setting, check if you may have made a typo")
+            else:
+                print("\033[1;5;4;91mCANNOT ACCESS SETTINGS\033[0m")
+                print("\033[2;5;31mthe program was unable to access the settings file (settings.json), please try moving the program to a different directory (folder) or starting the program as admin\033[0m")
         case _:
             Dev_Write("command is invalid")
         

@@ -9,6 +9,7 @@ from colorama import init
 from base import do_log, Dev_Write, Read_Setting, Initial
 import traceback
 import sys
+from printer import Print_NPC
 
 Initial()
 
@@ -83,39 +84,8 @@ def main():
         Lore: {lore1} {lore2}
         Personality: {personality[0]}, {personality[1]}
                 """)
-        
-        if Read_Setting("instant_mode"):
-            print("\033[8;37mNPC STAT BLOCK:\033[0m")
-            print(f"\033[0;32mName:\033[0m {name} ({gender})")
-            print(f"\033[0;36mAge:\033[0m {age}")
-            print(f"\033[0;34mRace:\033[0m {race} {sub_race}")
-            print(f"\033[0;35mProfession:\033[0m {profession}")
-            print(f"\033[0;31mStats:\033[0m {stats}")
-            print(f"\033[0;32mSpeech Quirk:\033[0m {speech_quirk}")
-            print(f"\033[0;36mReputation:\033[0m {rep}")
-            print(f"\033[0;34mLore:\033[0m {lore1} {lore2}")
-            print(f"\033[0;35mPersonality:\033[0m {personality[0]}, {personality[1]}")
-        else:
-            print("\033[8;37mNPC STAT BLOCK:\033[0m")
-            time.sleep(0.1)
-            print(f"\033[0;32mName:\033[0m {name} ({gender})")
-            time.sleep(0.1)
-            print(f"\033[0;36mAge:\033[0m {age}")
-            time.sleep(0.1)
-            print(f"\033[0;34mRace:\033[0m {race} {sub_race}")
-            time.sleep(0.1)
-            print(f"\033[0;35mProfession:\033[0m {profession}")
-            time.sleep(0.1)
-            print(f"\033[0;31mStats:\033[0m {stats}")
-            time.sleep(0.1)
-            print(f"\033[0;32mSpeech Quirk:\033[0m {speech_quirk}")
-            time.sleep(0.1)
-            print(f"\033[0;36mReputation:\033[0m {rep}")
-            time.sleep(0.1)
-            print(f"\033[0;34mLore:\033[0m {lore1} {lore2}")
-            time.sleep(0.1)
-            print(f"\033[0;35mPersonality:\033[0m {personality[0]}, {personality[1]}")
 
+        Print_NPC(gender, race, sub_race, name, age, profession, stats, stats_clean, speech_quirk, lore1, lore2, rep, personality)
 
 if __name__ == "__main__":
         main()

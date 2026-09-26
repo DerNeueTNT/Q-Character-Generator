@@ -8,8 +8,9 @@ do_log: bool = True
 dev_log: bool = True
 allow_settings: bool = True
 
-default_settings: dict = {
+default_settings: dict[str, Any] = {
     "instant_mode": False,
+    "theme": "default",
 }
 
 def Initial():
@@ -73,7 +74,7 @@ def Initial():
 
     #Sets up 'settings.json'
     if allow_settings:
-        with open("settings.json", "a+") as settings_file:
+        with open("settings.json", "r+") as settings_file:
             settings_file.seek(0)
             content = settings_file.read()
 
