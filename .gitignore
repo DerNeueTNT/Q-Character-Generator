@@ -5,6 +5,5 @@ __pycache__/
 log.txt
 log_prev.txt
 dev_log.log
-*.sh
-generator.ico
 settings.json
+compile.txt
