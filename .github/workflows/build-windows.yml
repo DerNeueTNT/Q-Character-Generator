@@ -31,3 +31,4 @@ jobs:
         with:
           name: Windows-build
           path: dist/Q-Character_Generator.exe
+          if-no-files-found: error
