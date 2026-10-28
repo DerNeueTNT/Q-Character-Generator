@@ -24,7 +24,7 @@ jobs:
           python -m pip install pyinstaller
 
       - name: Compile executable
-        run: python -m PyInstaller --onefile --name Q-Character_Generator main.py
+        run: python -m PyInstaller --onefile -n Q-Character_Generator_WINDOWS_vx.x.x main.py --icon=generator.ico
 
       - name: Upload executable
         uses: actions/upload-artifact@v4
