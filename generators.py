@@ -324,7 +324,7 @@ def generate_speech_quirk() -> str:
     Generate a speech quirk to make the NPC more memorable.
     """
     Dev_Write("-- GENERATING SPEECH QUIRK --")
-def generate_speech_quirk() -> str:
+
     quirks: list = [
         "with a germanic accent", "with a british accent", "with a french accent", "with an italian accent",
         "in a nervous manner", "in a serious manner", "quickly", "slowly", "with stutter", "with confidence",
