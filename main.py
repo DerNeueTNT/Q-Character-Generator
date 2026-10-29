@@ -1,6 +1,12 @@
 # TODO:
-# - add settings
+# - add (more) settings
+# - fix linux related issues
 
+
+try:
+    import readline
+except ImportError:
+    pass
 import time
 from datetime import datetime
 from generators import variable_maker
