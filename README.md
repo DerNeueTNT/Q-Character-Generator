@@ -28,9 +28,8 @@ I am an independent developer. When running the .exe on Windows, a 'SmartScreen'
 
 ## For Linux Users
 1. Download the linux version of Q-Character Generator.
-2. Open your terminal in the download folder.
-3. Give the file permission to run: chmod +x Q-Character-Generator-Linux
-4. Run it: ./Q-Character-Generator-Linux
+2. Extract the files
+3. Run the .Q-Character_Generator.desktop file
 
 ## For Developers
 If you wish to modify the source code:
