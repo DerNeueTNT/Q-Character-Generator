@@ -27,8 +27,6 @@ I am an independent developer. When running the .exe on Windows, a 'SmartScreen'
 4. Type !quit to end the program
 
 ## For Linux Users
-(please note that I have only recently made the switch to linux and as such this version of the tool is functional but has many more issues than the Windows version.)
-
 1. Download the linux version of Q-Character Generator.
 2. Open your terminal in the download folder.
 3. Give the file permission to run: chmod +x Q-Character-Generator-Linux
